@@ -1,0 +1,18 @@
+<!DOCtype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="ISO-8859-1">
+    <title>Admin Control Panel</title>
+</head>
+<body>
+<div align="center">
+    <h2>Admin Control Panel</h2>
+    <p>Your username is: <b>[[${#request.userPrincipal.principal.username}]]</b></p>
+    <p>Your role is: <b>[[${#request.userPrincipal.principal.role}]]</b></p>
+    <a href="/">Back to frontpage</a>
+    <form th:action="@{/admin/logout}" method="post">
+        <input type="submit" value="Logout" />
+    </form>
+</div>
+</body>
+</html>

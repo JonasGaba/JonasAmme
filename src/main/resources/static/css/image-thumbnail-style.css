@@ -1,0 +1,33 @@
+.thumbnail-container {
+  display: inline-flex;
+  margin-bottom:2em;
+  position: relative;
+}
+
+/* Make the image responsive */
+.thumbnail-container-img {
+    position: relative;
+    padding: 0.2rem;
+}
+
+
+/* Style the button and place it in the middle of the container/image */
+.thumbnail-container .btn {
+  position: absolute;
+  top: -0.3rem;
+  right: -0.2rem;
+  background-color: #f44336;
+  border: none;
+  color: white;
+  padding: 0px 4px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 9px;
+  border-radius: 50%;
+
+}
+
+.thumbnail-container .btn:hover {
+  background-color: black;
+}

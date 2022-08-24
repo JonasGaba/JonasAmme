@@ -1,0 +1,26 @@
+{
+  "name": "customise-bootstrap-for-spring-boot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "scss": "sass src/main/scss target/classes/static/css"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JonasGaba/JonasAmme"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JonasGaba/JonasAmme/issues"
+  },
+  "homepage": "https://github.com/JonasGaba/JonasAmme#readme",
+  "dependencies": {
+    "bootstrap": "^5.2",
+    "copyfiles": "^2.4.1",
+    "jquery": "^3.6.0",
+    "sass": "^1.54.7",
+    "popper.js": "^1.16.1"
+  }
+}
