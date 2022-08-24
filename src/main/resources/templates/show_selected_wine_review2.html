@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="ISO-8859-1">
+    <title>Selected Wine Review</title>
+    <link rel="stylesheet" href="/css/site.css">
+    <link rel="stylesheet" href="/css/wine_review_image_gallery.css">
+    <link rel="stylesheet" href="/css/album.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="/js/wineReviewViewScript.js"></script>
+    <!------ Include the above in your HEAD tag ---------->
+
+
+</head>
+
+<body>
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css"
+      media="screen">
+<script src="//cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js"></script>
+
+<section class="jumbotron text-center">
+    <div class="container">
+        <h1 class="jumbotron-heading"><span th:id="${'name-year-' + wineReview.ID}"
+                                            th:text="${wineReview.NAME + ' - ' + wineReview.YEAR}"></span></h1>
+
+        <p class="lead"><span th:id="${'type-price-' + wineReview.ID}"
+                              th:text="${wineReview.TYPE + ' - ' + wineReview.PRICE + 'kr'}"></span></p>
+        <p class="rating">
+        <div class="stars-outer">
+            <div th:id="${'inner-star-' + wineReview.ID}" class="stars-inner"
+                 th:style="${'width: ' + wineReview.RATING}"></div>
+        </div>
+
+        <p>
+            <span class="card-text-type" th:text="${wineReview.NOTE}"></span>
+        </p>
+        <script src="/js/wineReviewViewScript.js"></script>
+        <script th:inline="javascript">
+             change_wine_review_view([[${wineReview}]]);
+
+        </script>
+
+
+    </div>
+</section>
+
+
+<!-- Page Content -->
+<div class="container page-top">
+    <div class="row">
+        <th:block th:each="winePhoto: ${wineReview.photos}">
+
+            <div class="col-lg-3 col-md-4 col-xs-6 thumb">
+                <a th:href="@{${'/wine_review_photos/' + wineReview.ID + '/' + winePhoto.IMG_FILENAME}}"
+                   class="fancybox" rel="ligthbox">
+                    <img th:src="@{${'/wine_review_photos/' + wineReview.ID + '/thumbnails/\_\_th\_\_' + winePhoto.IMG_FILENAME}}"
+                         width="300" height="400" class="zoom img-fluid " alt="">
+                </a>
+            </div>
+        </th:block>
+    </div>
+
+</div>
+
+<script src="/js/wine_review_image_gallery.js"></script>
+
+</body>

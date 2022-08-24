@@ -1,0 +1,46 @@
+.thumbnail-container {
+  display: inline-block;
+  margin-bottom:2em;
+}
+
+/* Make the image responsive */
+.thumbnail-container img {
+
+}
+
+
+/* Style the button and place it in the middle of the container/image */
+.thumbnail-container .btn {
+  position: relative;
+
+  bottom:120px;
+
+  background-color: #f44336; /* Green */
+  border: none;
+  color: white;
+  padding: 0px 4px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 9px;
+  border-radius: 50%;
+  /*
+  bottom:4em;
+  top: 0%;
+  left: 0%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  background-color: #555;
+  color: white;
+  font-size: 0.5em;
+  padding: 0.5em 1em;
+  border: none;
+  cursor: pointer;
+  border-radius: 0.5em;
+    */
+
+}
+
+.thumbnail-container .btn:hover {
+  background-color: black;
+}

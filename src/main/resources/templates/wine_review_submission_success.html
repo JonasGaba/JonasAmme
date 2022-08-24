@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="ISO-8859-1">
+    <title>Registration Success</title>
+    <style type="text/css">
+    span {
+        display: inline-block;
+        width: 200px;
+        text-align: left;
+    }
+</style>
+</head>
+<body>
+<div align="center">
+    <h2>Registration Succeeded!</h2>
+    <span>Name:</span><span th:text="${wineReview.NAME}"></span><br/>
+    <span>Year:</span><span th:text="${wineReview.YEAR}"></span><br/>
+    <span>Type:</span><span th:text="${wineReview.TYPE}"></span><br/>
+    <span>Rating:</span><span th:text="${wineReview.RATING}"></span><br/>
+    <span>Note:</span><span th:text="${wineReview.NOTE}"></span><br/>
+
+    <div style="align-items: center;">
+         <tr th:each="winePhoto: ${wineReview.photos}">
+            <img th:src="@{${'/wine_review_photos/' + wineReview.ID + '/' + winePhoto.IMG_FILENAME}}" width="300" height="400"/>
+
+    </div>
+
+
+
+</div>
+
+<div align="center">
+    <a href="/">Go back</a>
+</div>
+
+</body>
+</html>
