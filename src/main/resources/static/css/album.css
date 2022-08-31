@@ -16,20 +16,11 @@
 }
 
 .jumbotron-heading {
-  font-weight: 300;
+  font-weight: 400;
 }
 
 .jumbotron .container {
   max-width: 40rem;
-}
-
-footer {
-  padding-top: 3rem;
-  padding-bottom: 3rem;
-}
-
-footer p {
-  margin-bottom: .25rem;
 }
 
 .bd-placeholder-img {
@@ -48,14 +39,32 @@ footer p {
       }
 
 .card-text-title {
-  font-size: 0.8rem;
+  font-size: 1.2rem;
   text-anchor: middle;
   font-weight: bold;
+  color: white;
 }
-.card-text-type {
-  font-size: 0.7rem;
+.card-text {
+  font-size: 1rem;
+  text-anchor: middle;
+  color: white;
+}
+.card-text-it {
+  font-size: 1rem;
   text-anchor: middle;
   font-style: italic;
+  color: white;
+}
+
+.album-min-size {
+    min-height: 62.5vh;
+}
+.rating{
+    font-size: 1.5rem;
+}
+
+.zero-stars {
+  font-size: 0;
 }
 
 .stars-outer {

@@ -1,24 +1,27 @@
 
 
-function previewImage(src) {
+function previewImage(src, id) {
 
     var preview = document.querySelector('#preview');
+    const imgDiv = document.createElement("div");
+    imgDiv.className = "thumbnail-container-img";
     let imageHeight = 100;
     var image = new Image();
     image.height = imageHeight;
     image.title  = "";
     image.src    = src;
-    image.className = "thumbnail-container image";
 
-    preview.appendChild(image);
+    imgDiv.appendChild(image);
     let removeButton = document.createElement("button");
     removeButton.innerText = "X";
     removeButton.className = "thumbnail-container btn";
+    var photos = document.getElementById('photos');
+    var photosToDelete = document.getElementById('photosToDelete');
     removeButton.addEventListener("click", function(){
-       preview.removeChild(image);
-       preview.removeChild(removeButton);
-       src="";
+       preview.removeChild(imgDiv);
+        photosToDelete.value += id + ",";
     });
-    preview.appendChild(removeButton);
+    imgDiv.appendChild(removeButton);
+    preview.appendChild(imgDiv);
 
 }

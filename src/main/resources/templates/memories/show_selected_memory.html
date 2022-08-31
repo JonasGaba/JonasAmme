@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="ISO-8859-1">
+    <title>Selected Wine Review</title>
+    <link rel="stylesheet" href="/css/site.css">
+    <link rel="stylesheet" href="/css/image_gallery.css">
+    <link rel="stylesheet" href="/css/album.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="/js/memoryViewScript.js"></script>
+    <script src="/js/updateRatingStars.js"></script>
+    <!------ Include the above in your HEAD tag ---------->
+    <link href="/css/styles.css" rel="stylesheet"/>
+
+</head>
+
+<body class="memories-body">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css"
+      media="screen">
+<script src="//cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js"></script>
+
+<section class="jumbotron text-center memories-header">
+    <div class="container">
+        <p>
+            <a href="/memories" class="btn btn-primary my-2">All memories</a>
+            <a th:href="@{/memories/edit/{id}(id = ${memory.ID})}" class="btn btn-secondary my-2">Edit this memory</a>
+        </p>
+        <h1 class="jumbotron-heading"><span th:id="${'name-location-' + memory.ID}"
+                                            th:text="${memory.NAME + ' - ' + memory.LOCATION}"></span></h1>
+
+        <p class="lead"><span th:id="${'date-' + memory.ID}"
+                              th:text="${memory.DATE}"></span></p>
+
+        <p class="rating">
+        <div class="stars-outer">
+            <div th:id="${'inner-star-' + memory.ID}" class="stars-inner"
+                 th:style="${'width: ' + memory.RATING}"></div>
+        </div>
+
+        <p>
+            <span class="view-text" th:text="${memory.NOTE}"></span>
+        </p>
+
+        <script th:inline="javascript">
+             updateRatingStars([[${memory}]])
+             change_memory_view([[${memory}]]);
+        </script>
+
+
+    </div>
+</section>
+
+
+<!-- Page Content -->
+<div class="container page-top">
+    <div class="row">
+        <th:block th:each="memoryPhoto: ${memory.photos}">
+
+            <div class="col-lg-3 col-md-4 col-xs-6 thumb">
+                <a th:href="@{${'/memories_photos/' + memory.ID + '/' + memoryPhoto.IMG_FILENAME}}"
+                   class="fancybox" rel="ligthbox">
+                    <img th:src="@{${'/memories_photos/' + memory.ID + '/thumbnails/\_\_th\_\_' + memoryPhoto.IMG_FILENAME}}"
+                         width="300" height="400" class="zoom img-fluid " alt="">
+                </a>
+            </div>
+        </th:block>
+    </div>
+
+</div>
+
+<script src="/js/review_image_gallery.js"></script>
+
+</body>

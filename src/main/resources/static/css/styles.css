@@ -115,12 +115,13 @@ h1, .h1 {
 }
 @media (min-width: 1200px) {
   h1, .h1 {
-    font-size: 2.5rem;
+    font-size: 3.5rem;
   }
 }
 
 h2, .h2 {
   font-size: calc(1.325rem + 0.9vw);
+  border-bottom: 2px solid;
 }
 @media (min-width: 1200px) {
   h2, .h2 {
@@ -490,8 +491,8 @@ progress {
 }
 
 .lead {
-  font-size: 1.25rem;
-  font-weight: 300;
+  font-size: 2.0rem;
+  font-weight: 370;
 }
 
 .display-1 {
@@ -3297,8 +3298,9 @@ textarea.form-control-lg {
 }
 
 .btn-outline-secondary {
-  color: #6c757d;
+  color: #fff;
   border-color: #6c757d;
+  background-color: #6c757d;
 }
 .btn-outline-secondary:hover {
   color: #fff;
@@ -11409,7 +11411,7 @@ header.masthead h1, header.masthead .h1 {
 }
 @media (min-width: 992px) {
   header.masthead {
-    height: 100vh;
+    height: 75vh;
     min-height: 40rem;
     padding-top: 4.5rem;
     padding-bottom: 0;
@@ -11461,4 +11463,49 @@ header.masthead h1, header.masthead .h1 {
 }
 #portfolio .container-fluid .portfolio-box:hover .portfolio-box-caption, #portfolio .container-sm .portfolio-box:hover .portfolio-box-caption, #portfolio .container-md .portfolio-box:hover .portfolio-box-caption, #portfolio .container-lg .portfolio-box:hover .portfolio-box-caption, #portfolio .container-xl .portfolio-box:hover .portfolio-box-caption, #portfolio .container-xxl .portfolio-box:hover .portfolio-box-caption {
   opacity: 1;
+}
+
+.view-text{
+        white-space: pre-line;
+        color: black;
+}
+
+
+.wine-header{
+background: #b7c9a8;
+}
+.wine-body{
+background: #678c74;
+}
+.wine-card{
+background: #12422c;
+}
+.wine-left-form{
+background: #141414cc;
+}
+
+.memories-header{
+background: #bbe1f5;
+}
+.memories-body{
+background: #8ec7e3;
+}
+.memories-card{
+background: #1c4b74cc;
+}
+.memories-left-form{
+background: #141414cc;
+}
+
+.recipes-header{
+background: #f7e2c8;
+}
+.recipes-body{
+background: #eec591;
+}
+.recipes-card{
+background: #Ce7f5a;
+}
+.recipes-left-form{
+background: #Ad7459;
 }

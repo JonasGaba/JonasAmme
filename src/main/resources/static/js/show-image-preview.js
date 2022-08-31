@@ -23,24 +23,24 @@ function previewImages() {
 
     var reader = new FileReader();
     reader.addEventListener("load", function() {
-
+      const imgDiv = document.createElement("div");
+      imgDiv.className = "thumbnail-container-img";
       var image = new Image();
       image.height = imageHeight;
       image.title  = file.name;
       image.src    = this.result;
-      image.className = "thumbnail-container image";
+      imgDiv.appendChild(image);
 
-      preview.appendChild(image);
       let removeButton = document.createElement("button");
       removeButton.innerText = "X";
       removeButton.className = "thumbnail-container btn";
       removeButton.addEventListener("click", function(){
-         preview.removeChild(image);
-         preview.removeChild(removeButton);
+         preview.removeChild(imgDiv);
          fileSet.delete(file);
          setFiles(document.querySelector('#file-input'), fileSet);
       });
-      preview.appendChild(removeButton);
+      imgDiv.appendChild(removeButton);
+      preview.appendChild(imgDiv);
 
     });
     

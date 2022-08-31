@@ -1,19 +1,6 @@
-/*<![CDATA[*/
 function change_wine_review_view(wineReview){
 
-
     var id = wineReview.id;
-
-    var rating = wineReview.rating;
-    if(rating && rating != 'null'){
-        var starPercentage = (Number(rating) / 5) * 100;
-        var starPercentageRounded = Math.round(starPercentage / 10) * 10;
-        var starPercentageString = '' + starPercentageRounded + '%';
-        var starId = 'inner-star-' + id;
-        var innerStarElement = document.getElementById(starId);
-        innerStarElement.style.width = starPercentageString;
-    }
-
 
     var year = wineReview.year;
     if (!year || year == 'null'){
@@ -29,4 +16,3 @@ function change_wine_review_view(wineReview){
     }
 
 }
-/*]]>*/

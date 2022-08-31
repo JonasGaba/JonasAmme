@@ -77,6 +77,9 @@
 }
 
 #half-stars {
+    display: inline-flex;
+    width: 70%;
+    padding-inline: 10%;
 
   /* use display:inline-flex to prevent whitespace issues. alternatively, you can put all the children of .rating-group on a single line */
   .rating-group {
@@ -150,6 +153,10 @@
   .rating__input--none:hover + .rating__label .rating__icon--none {
     color: red;
   }
+
+  .zero-stars {
+    font-size: 0;
+  }
 }
 
 #full-stars-example-two {
@@ -201,6 +208,8 @@
   .rating__input:hover ~ .rating__label .rating__icon--star {
     color: #ddd;
   }
+
+
 }
 
 

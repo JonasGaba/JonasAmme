@@ -1,21 +1,22 @@
 .thumbnail-container {
-  display: inline-block;
+  display: inline-flex;
   margin-bottom:2em;
+  position: relative;
 }
 
 /* Make the image responsive */
-.thumbnail-container img {
-
+.thumbnail-container-img {
+    position: relative;
+    padding: 0.2rem;
 }
 
 
 /* Style the button and place it in the middle of the container/image */
 .thumbnail-container .btn {
-  position: relative;
-
-  bottom:120px;
-
-  background-color: #f44336; /* Green */
+  position: absolute;
+  top: -0.3rem;
+  right: -0.2rem;
+  background-color: #f44336;
   border: none;
   color: white;
   padding: 0px 4px;
@@ -24,20 +25,6 @@
   display: inline-block;
   font-size: 9px;
   border-radius: 50%;
-  /*
-  bottom:4em;
-  top: 0%;
-  left: 0%;
-  transform: translate(-50%, -50%);
-  -ms-transform: translate(-50%, -50%);
-  background-color: #555;
-  color: white;
-  font-size: 0.5em;
-  padding: 0.5em 1em;
-  border: none;
-  cursor: pointer;
-  border-radius: 0.5em;
-    */
 
 }
 
