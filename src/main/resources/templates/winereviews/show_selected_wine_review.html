@@ -1,5 +1,6 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<!DOCtype html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <meta charset="ISO-8859-1">
     <title>Selected Wine Review</title>
@@ -20,6 +21,19 @@
 </head>
 
 <body class = "wine-body">
+<body class = "rating">
+<nav class="navbar navbar-expand-lg navbar-light fixed-top py-3" id="mainNav">
+    <div class="container px-4 px-lg-5">
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ms-auto my-2 my-lg-0">
+                <li sec:authorize="${!hasAuthority('ADMIN')}" class="nav-item"><a class="nav-link" href="/admin/login">Login</a></li>
+                <li sec:authorize="${hasAuthority('ADMIN')}" class="nav-item"><a class="nav-link" href="/admin/home">
+                    [[${#request.userPrincipal.principal.username}]]</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
 <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css"
       media="screen">
 <script src="//cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js"></script>
@@ -28,21 +42,22 @@
     <div class="container">
         <p>
             <a href="/winereviews" class="btn btn-primary my-2">All reviews</a>
-            <a th:href="@{/winereviews/edit/{id}(id = ${wineReview.ID})}" class="btn btn-secondary my-2">Edit this review</a>
-        </p>
-        <h1 class="jumbotron-heading"><span th:id="${'name-year-' + wineReview.ID}"
-                                            th:text="${wineReview.NAME + ' - ' + wineReview.YEAR}"></span></h1>
 
-        <p class="lead"><span th:id="${'type-price-' + wineReview.ID}"
-                              th:text="${wineReview.TYPE + ' - ' + wineReview.PRICE + 'kr'}"></span></p>
+            <a sec:authorize="${hasAuthority('ADMIN')}" th:href="@{/admin/winereviews/edit/{id}(id = ${wineReview.id})}" class="btn btn-secondary my-2">Edit this review</a>
+        </p>
+        <h1 class="jumbotron-heading"><span th:id="${'name-year-' + wineReview.id}"
+                                            th:text="${wineReview.name + ' - ' + wineReview.year}"></span></h1>
+
+        <p class="lead"><span th:id="${'type-price-' + wineReview.id}"
+                              th:text="${wineReview.type + ' - ' + wineReview.price + 'kr'}"></span></p>
         <p class="rating">
         <div class="stars-outer">
-            <div th:id="${'inner-star-' + wineReview.ID}" class="stars-inner"
-                 th:style="${'width: ' + wineReview.RATING}"></div>
+            <div th:id="${'inner-star-' + wineReview.id}" class="stars-inner"
+                 th:style="${'width: ' + wineReview.rating}"></div>
         </div>
 
         <p>
-            <span class="view-text" th:text="${wineReview.NOTE}"></span>
+            <span class="view-text" th:text="${wineReview.note}"></span>
         </p>
 
         <script th:inline="javascript">
@@ -61,9 +76,9 @@
         <th:block th:each="winePhoto: ${wineReview.photos}">
 
             <div class="col-lg-3 col-md-4 col-xs-6 thumb">
-                <a th:href="@{${'/wine_review_photos/' + wineReview.ID + '/' + winePhoto.IMG_FILENAME}}"
+                <a th:href="@{${'/wine_review_photos/' + wineReview.id + '/' + winePhoto.IMG_FILEname}}"
                    class="fancybox" rel="ligthbox">
-                    <img th:src="@{${'/wine_review_photos/' + wineReview.ID + '/thumbnails/\_\_th\_\_' + winePhoto.IMG_FILENAME}}"
+                    <img th:src="@{${'/wine_review_photos/' + wineReview.id + '/thumbnails/\_\_th\_\_' + winePhoto.IMG_FILEname}}"
                          width="300" height="400" class="zoom img-fluid " alt="">
                 </a>
             </div>

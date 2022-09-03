@@ -26,12 +26,12 @@ public class WineReviewServiceImpl implements WineReviewService {
     }
 
     @Override
-    public WineReview getWineReviewFromId(Long ID){
-        return wineReviewRepository.findByID(ID);
+    public WineReview getWineReviewFromId(Long id){
+        return wineReviewRepository.findById(id).isPresent() ? wineReviewRepository.findById(id).get():null;
     }
 
     @Override
-    public void deleteWineReviewFromId(Long ID){
-        wineReviewRepository.deleteByID(ID);
+    public void deleteWineReviewFromId(Long id){
+        wineReviewRepository.deleteById(id);
     }
 }

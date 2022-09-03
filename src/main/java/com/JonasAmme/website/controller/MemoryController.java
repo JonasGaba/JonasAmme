@@ -1,9 +1,8 @@
 package com.JonasAmme.website.controller;
 
-import com.JonasAmme.website.model.Memories;
-
-import com.JonasAmme.website.service.MemoriesService;
-import com.JonasAmme.website.service.UploadedFilesService;
+import com.JonasAmme.website.model.Memory;
+import com.JonasAmme.website.service.MemoryService;
+import com.JonasAmme.website.service.UploadedFileService;
 import com.JonasAmme.website.utils.FileUpload;
 import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,20 +21,20 @@ import java.util.Objects;
 
 
 @Controller
-public class MemoriesController {
-    private static final String MEMORY_PHOTOS_BASE_FOLDER = "memories_photos/";
+public class MemoryController {
+    private static final String MEMORY_PHOTOS_BASE_FOLDER = "memory_photos/";
 
     private static final String MEMORY_PARENT_TYPE = "MEMORY";
     @Autowired
-    private MemoriesService memoriesService;
+    private MemoryService memoryService;
 
     @Autowired
-    private UploadedFilesService uploadedFilesService;
+    private UploadedFileService uploadedFileService;
 
 
-    @GetMapping("/addmemory")
+    @GetMapping("/admin/addmemory")
     public String showWineReviewForm(Model model) {
-        Memories memory = new Memories();
+        Memory memory = new Memory();
         model.addAttribute("memory", memory);
 
 
@@ -44,18 +43,18 @@ public class MemoriesController {
         return "memories/add_memory";
     }
 
-    @PostMapping("/addmemory")
-    public String submitForm(@ModelAttribute("memory") Memories memory,
+    @PostMapping("/admin/addmemory")
+    public String submitForm(@ModelAttribute("memory") Memory memory,
                              @RequestParam("image") MultipartFile[] multipartFiles) throws IOException {
 
         // Need to create it here to generate ID
-        memoriesService.insertMemory(memory);
+        memoryService.insertMemory(memory);
         boolean hasMultiPartFiles = (multipartFiles != null && multipartFiles.length > 0);
 
         // Update with uploaded file children
-        memoriesService.insertMemory(memory);
+        memoryService.insertMemory(memory);
 
-        String uploadDir = MEMORY_PHOTOS_BASE_FOLDER + memory.getID();
+        String uploadDir = MEMORY_PHOTOS_BASE_FOLDER + memory.getId();
 
         if (hasMultiPartFiles) {
             for (MultipartFile multipartFile : multipartFiles) {
@@ -72,18 +71,18 @@ public class MemoriesController {
 
     @GetMapping("/memories")
     public String showMemories(Model model) {
-        List<Memories> allmemorys = memoriesService.getAllMemories();
-        model.addAttribute("allMemories", allmemorys);
+        List<Memory> allmemories = memoryService.getAllMemories();
+        model.addAttribute("allMemories", allmemories);
         return "memories/show_memories";
     }
 
 
-    @GetMapping("/memories/edit/{id}")
+    @GetMapping("/admin/memories/edit/{id}")
     public String editSelectedMemory(@PathVariable(value = "id") String id,
                                          Model model) {
         Long Id = Long.parseLong(id);
-        Memories memory = memoriesService.getMemoriesFromId(Id);
-        memory.setPhotos(uploadedFilesService.getFilesFromParent(MEMORY_PARENT_TYPE, Id));
+        Memory memory = memoryService.getMemoriesFromId(Id);
+        memory.setPhotos(uploadedFileService.getFilesFromParent(MEMORY_PARENT_TYPE, Id));
         model.addAttribute("memory", memory);
 
         model.addAttribute("memoryPhotos", memory.getPhotos());
@@ -91,8 +90,8 @@ public class MemoriesController {
         return "memories/edit_selected_memory";
     }
 
-    @PostMapping("/memories/edit/{id}")
-    public ModelAndView submitEditedForm(@ModelAttribute("memory") Memories memory,
+    @PostMapping("/admin/memories/edit/{id}")
+    public ModelAndView submitEditedForm(@ModelAttribute("memory") Memory memory,
                                          @RequestParam("image") MultipartFile[] multipartFiles) throws IOException {
 
 
@@ -103,7 +102,7 @@ public class MemoriesController {
             }
         }
 
-        String uploadDir = MEMORY_PHOTOS_BASE_FOLDER + memory.getID();
+        String uploadDir = MEMORY_PHOTOS_BASE_FOLDER + memory.getId();
 
         if (hasMultiPartFiles) {
             for (MultipartFile multipartFile : multipartFiles) {
@@ -117,25 +116,25 @@ public class MemoriesController {
         String photosToDelete = memory.getPhotosToDelete();
         if (photosToDelete != null && !photosToDelete.isEmpty()) {
             photosToDelete = photosToDelete.substring(0, photosToDelete.length() - 1);
-            memory.setPROFILE_PICTURE(FileUpload.deleteFilesByStringIds(photosToDelete, uploadedFilesService,
-                    MEMORY_PHOTOS_BASE_FOLDER, memory.getID(), MEMORY_PARENT_TYPE,
-                    memory.getPROFILE_PICTURE()));
+            memory.setProfilePicture(FileUpload.deleteFilesByStringIds(photosToDelete, uploadedFileService,
+                    MEMORY_PHOTOS_BASE_FOLDER, memory.getId(), MEMORY_PARENT_TYPE,
+                    memory.getProfilePicture()));
         }
 
-        memory.setDATE_MODIFIED(LocalDateTime.now());
+        memory.setDateModified(LocalDateTime.now());
 
         // Update with uploaded file children
-        memoriesService.insertMemory(memory);
-        return new ModelAndView("redirect:/memories/see/" + memory.getID());
+        memoryService.insertMemory(memory);
+        return new ModelAndView("redirect:/memories/see/" + memory.getId());
     }
 
 
-    @GetMapping("/memories/delete/{id}")
+    @GetMapping("/admin/memories/delete/{id}")
     public ModelAndView deleteSelectedMemory(@PathVariable(value = "id") String id,
                                                  Model model) throws IOException {
         Long Id = Long.parseLong(id);
-        memoriesService.deleteMemoriesFromId(Id);
-        uploadedFilesService.deleteFilesFromParent(MEMORY_PARENT_TYPE, Id);
+        memoryService.deleteMemoriesFromId(Id);
+        uploadedFileService.deleteFilesFromParent(MEMORY_PARENT_TYPE, Id);
         FileUtils.deleteDirectory(new File(MEMORY_PHOTOS_BASE_FOLDER + id));
 
         return new ModelAndView("redirect:/memories");
@@ -145,25 +144,25 @@ public class MemoriesController {
     public String showSelectedMemory(@PathVariable(value = "id") String id,
                                          Model model) {
         Long Id = Long.parseLong(id);
-        Memories memory = memoriesService.getMemoriesFromId(Id);
-        memory.setPhotos(uploadedFilesService.getFilesFromParent(MEMORY_PARENT_TYPE, Id));
+        Memory memory = memoryService.getMemoriesFromId(Id);
+        memory.setPhotos(uploadedFileService.getFilesFromParent(MEMORY_PARENT_TYPE, Id));
         model.addAttribute("memory", memory);
 
         return "memories/show_selected_memory";
     }
 
 
-    private void setMemoryPhotos(MultipartFile[] multipartFiles, Memories memory) {
+    private void setMemoryPhotos(MultipartFile[] multipartFiles, Memory memory) {
         if (multipartFiles == null || multipartFiles.length < 1) {
             return;
         }
 
-        String memoryProfilePicture = FileUpload.uploadFilesFromInput(multipartFiles, MEMORY_PARENT_TYPE, memory.getID(), uploadedFilesService);
+        String memoryProfilePicture = FileUpload.uploadFilesFromInput(multipartFiles, MEMORY_PARENT_TYPE, memory.getId(), uploadedFileService);
 
         // SET memory THUMBNAIL "PROFILE PIC"
-        FileUpload.createThumbnailsFromFolder(MEMORY_PHOTOS_BASE_FOLDER + memory.getID() + "/");
-        memory.setPROFILE_PICTURE("__th__" + memoryProfilePicture);
-        memory.setPhotos(uploadedFilesService.getFilesFromParent(MEMORY_PARENT_TYPE, memory.getID()));
+        FileUpload.createThumbnailsFromFolder(MEMORY_PHOTOS_BASE_FOLDER + memory.getId() + "/");
+        memory.setProfilePicture("__th__" + memoryProfilePicture);
+        memory.setPhotos(uploadedFileService.getFilesFromParent(MEMORY_PARENT_TYPE, memory.getId()));
 
     }
 

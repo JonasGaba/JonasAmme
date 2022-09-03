@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCtype html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="ISO-8859-1">
@@ -13,45 +13,45 @@
 
 </head>
 
-<body class="memories-body">
+<body class="memory-body">
 <div class="signupSection">
     <div class="info">
         <p class="backButton">
-            <a href="/memories" class="btn btn-primary my-2 backButton">Back to memory gallery</a>
-            <a th:href="@{${'/memories/delete/' + memory.ID}}" class="btn btn-secondary my-2">Delete memory</a>
+            <a href="/memory" class="btn btn-primary my-2 backButton">Back to memory gallery</a>
+            <a th:href="@{${'/admin/memory/delete/' + memory.id}}" class="btn btn-secondary my-2">Delete memory</a>
         </p>
 
         <img src="/assets/img/memories_icon.png" class="icon"/>
     </div>
-    <form action="#" method="POST" class="signupForm memories-card" name="signupform" th:object="${memory}"
+    <form action="#" method="POST" class="signupForm memory-card" name="signupform" th:object="${memory}"
           enctype="multipart/form-data">
 
         <h2>Edit memory</h2>
 
 
         <div>
-            <input type="hidden" th:field="*{ID}"/>
+            <input type="hidden" th:field="*{id}"/>
             <label for="name">Name: </label>
-            <input type="text" class="inputFields" th:field="*{NAME}" id="name" name="name"
+            <input type="text" class="inputFields" th:field="*{name}" id="name" name="name"
                    placeholder="Name"/>
         </div>
 
         <div>
             <label for="location">Location: </label>
-            <input type="text" class="inputFields" th:field="*{LOCATION}" id="location" name="location"
+            <input type="text" class="inputFields" th:field="*{location}" id="location" name="location"
                    placeholder="Location" value="" required/>
         </div>
 
         <div>
             <label for="date">Date: </label>
-            <input type="date" class="inputFields" th:field="*{DATE}" id="date" name="date"/>
+            <input type="date" class="inputFields" th:field="*{date}" id="date" name="date"/>
         </div>
 
         <div>
             <label for="note" class="labelTextArea">Notes:
             </label>
             <textarea class="inputFields" id="note" name="note"
-                      placeholder="Note" rows="5" cols="25" th:field="*{NOTE}"></textarea>
+                      placeholder="Note" rows="5" cols="25" th:field="*{note}"></textarea>
         </div>
 
         <div>
@@ -59,48 +59,48 @@
             <div id="half-stars">
                 <div class="rating-group">
                     <input class="rating__input rating__input--none" checked name="rating2" id="rating2-0" value="0"
-                           type="radio" th:field="*{RATING}">
+                           type="radio" th:field="*{rating}">
                     <label aria-label="0 stars" class="rating__label zero-stars" for="rating2-0">&nbsp;</label>
                     <label aria-label="0.5 stars" class="rating__label rating__label--half" for="rating2-05"><i
                             class="rating__icon rating__icon--star fa fa-star-half"></i></label>
                     <input class="rating__input" name="rating2" id="rating2-05" value="0.5" type="radio"
-                           th:field="*{RATING}">
+                           th:field="*{rating}">
                     <label aria-label="1 star" class="rating__label" for="rating2-10"><i
                             class="rating__icon rating__icon--star fa fa-star"></i></label>
                     <input class="rating__input" name="rating2" id="rating2-10" value="1" type="radio"
-                           th:field="*{RATING}">
+                           th:field="*{rating}">
                     <label aria-label="1.5 stars" class="rating__label rating__label--half" for="rating2-15"><i
                             class="rating__icon rating__icon--star fa fa-star-half"></i></label>
                     <input class="rating__input" name="rating2" id="rating2-15" value="1.5" type="radio"
-                           th:field="*{RATING}">
+                           th:field="*{rating}">
                     <label aria-label="2 stars" class="rating__label" for="rating2-20"><i
                             class="rating__icon rating__icon--star fa fa-star"></i></label>
                     <input class="rating__input" name="rating2" id="rating2-20" value="2" type="radio"
-                           th:field="*{RATING}">
+                           th:field="*{rating}">
                     <label aria-label="2.5 stars" class="rating__label rating__label--half" for="rating2-25"><i
                             class="rating__icon rating__icon--star fa fa-star-half"></i></label>
                     <input class="rating__input" name="rating2" id="rating2-25" value="2.5" type="radio" checked
-                           th:field="*{RATING}">
+                           th:field="*{rating}">
                     <label aria-label="3 stars" class="rating__label" for="rating2-30"><i
                             class="rating__icon rating__icon--star fa fa-star"></i></label>
                     <input class="rating__input" name="rating2" id="rating2-30" value="3" type="radio"
-                           th:field="*{RATING}">
+                           th:field="*{rating}">
                     <label aria-label="3.5 stars" class="rating__label rating__label--half" for="rating2-35"><i
                             class="rating__icon rating__icon--star fa fa-star-half"></i></label>
                     <input class="rating__input" name="rating2" id="rating2-35" value="3.5" type="radio"
-                           th:field="*{RATING}">
+                           th:field="*{rating}">
                     <label aria-label="4 stars" class="rating__label" for="rating2-40"><i
                             class="rating__icon rating__icon--star fa fa-star"></i></label>
                     <input class="rating__input" name="rating2" id="rating2-40" value="4" type="radio"
-                           th:field="*{RATING}">
+                           th:field="*{rating}">
                     <label aria-label="4.5 stars" class="rating__label rating__label--half" for="rating2-45"><i
                             class="rating__icon rating__icon--star fa fa-star-half"></i></label>
                     <input class="rating__input" name="rating2" id="rating2-45" value="4.5" type="radio"
-                           th:field="*{RATING}">
+                           th:field="*{rating}">
                     <label aria-label="5 stars" class="rating__label" for="rating2-50"><i
                             class="rating__icon rating__icon--star fa fa-star"></i></label>
                     <input class="rating__input" name="rating2" id="rating2-50" value="5" type="radio"
-                           th:field="*{RATING}">
+                           th:field="*{rating}">
                 </div>
             </div>
 
@@ -115,8 +115,8 @@
         <div id="preview" class="thumbnail-container"></div>
         <div id='file-list-display'></div>
 
-        <input type="hidden" th:field="*{PROFILE_PICTURE}"/>
-        <input type="hidden" th:field="*{DATE_UPLOADED}"/>
+        <input type="hidden" th:field="*{profilePicture}"/>
+        <input type="hidden" th:field="*{date_UPLOADED}"/>
         <input type="hidden" id="photos" th:field="*{photos}"/>
         <input type="hidden" id="photosToDelete" th:field="*{photosToDelete}"/>
         <div id="submit">
@@ -133,9 +133,9 @@
 <th:block th:each="memoryPhoto: ${memory.photos}">
     <script th:inline="javascript">
         var mPhoto = [[${memoryPhoto}]];
-        var mId = [[${memory.ID}]];
-        var fileId = [[${memoryPhoto.ID}]];
-        var mPhotoPath = '/memories_photos/' + mId + '/thumbnails/\_\_th\_\_' + mPhoto.img_FILENAME;
+        var mId = [[${memory.id}]];
+        var fileId = [[${memoryPhoto.id}]];
+        var mPhotoPath = '/memories_photos/' + mId + '/thumbnails/\_\_th\_\_' + mPhoto.img_FILEname;
         previewImage(mPhotoPath, fileId);
 
     </script>

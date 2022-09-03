@@ -1,8 +1,8 @@
 package com.JonasAmme.website.utils;
 
 
-import com.JonasAmme.website.model.UploadedFiles;
-import com.JonasAmme.website.service.UploadedFilesService;
+import com.JonasAmme.website.model.UploadedFile;
+import com.JonasAmme.website.service.UploadedFileService;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -60,13 +60,13 @@ public class FileUpload {
         return filePathList;
     }
 
-    public static UploadedFiles insertUploadedFiles(MultipartFile multipartFile, String uploadedBy, String parentType, Long parentID){
+    public static UploadedFile insertUploadedFiles(MultipartFile multipartFile, String uploadedBy, String parentType, Long parentID){
         // Create file entity object into UPLOADED_FILES Table
         String fileName = StringUtils.cleanPath(Objects.requireNonNull(multipartFile.getOriginalFilename()));
-        var uploadedFiles = new UploadedFiles();
-        uploadedFiles.setUPLOADED_BY(uploadedBy);
-        uploadedFiles.setIMG_FILENAME(fileName);
-        uploadedFiles.setIMG_SIZE(multipartFile.getSize());
+        var uploadedFiles = new UploadedFile();
+        uploadedFiles.setUploadedBy(uploadedBy);
+        uploadedFiles.setImgFilename(fileName);
+        uploadedFiles.setImgSize(multipartFile.getSize());
         uploadedFiles.setParentType(parentType);
         uploadedFiles.setParentId(parentID);
         return uploadedFiles;
@@ -85,26 +85,26 @@ public class FileUpload {
         return true;
     }
 
-    public static String uploadFilesFromInput(MultipartFile[] multipartFiles, String parentType, Long parentId, UploadedFilesService uploadedFilesService){
+    public static String uploadFilesFromInput(MultipartFile[] multipartFiles, String parentType, Long parentId, UploadedFileService uploadedFileService){
         String lastFileName = null;
         for (MultipartFile multipartFile : multipartFiles) {
-            UploadedFiles uploadedFile = insertUploadedFiles(multipartFile, "JONAS", parentType, parentId);
+            UploadedFile uploadedFile = insertUploadedFiles(multipartFile, "JONAS", parentType, parentId);
             //Insert into DB
-            uploadedFilesService.insertUploadedFiles(uploadedFile);
-            lastFileName = uploadedFile.getIMG_FILENAME();
+            uploadedFileService.insertUploadedFiles(uploadedFile);
+            lastFileName = uploadedFile.getImgFilename();
 
         }
         return lastFileName;
     }
 
-    public static String deleteFilesByStringIds(String photosToDelete, UploadedFilesService uploadedFilesService,
+    public static String deleteFilesByStringIds(String photosToDelete, UploadedFileService uploadedFileService,
                                                 String baseFolderPath, Long parentId, String parentType,
                                                 String profilePictureFileName){
         boolean profilePicWasDeleted = false;
         for(String fileIdString : photosToDelete.split(",")){
             Long fileId = Long.parseLong(fileIdString);
-            UploadedFiles uploadedFile = uploadedFilesService.getFileFromID(fileId);
-            String fileName = uploadedFile.getIMG_FILENAME().trim();
+            UploadedFile uploadedFile = uploadedFileService.getFileFromId(fileId);
+            String fileName = uploadedFile.getImgFilename().trim();
             if (("__th__" + fileName).equals(profilePictureFileName.trim())){
                 profilePicWasDeleted = true;
             }
@@ -113,15 +113,15 @@ public class FileUpload {
             File file = new File(baseFolderPath + parentId + "/" + fileName);
             thFile.delete();
             file.delete();
-            uploadedFilesService.deleteFileById(fileId);
+            uploadedFileService.deleteFileById(fileId);
         }
 
         if (profilePicWasDeleted){
-            List<UploadedFiles> uploadedFiles = uploadedFilesService.getFilesFromParent(parentType, parentId);
+            List<UploadedFile> uploadedFiles = uploadedFileService.getFilesFromParent(parentType, parentId);
             if (uploadedFiles == null || uploadedFiles.isEmpty()){
                 return null;
             }else{
-                return "__th__"+uploadedFiles.get(0).getIMG_FILENAME();
+                return "__th__"+uploadedFiles.get(0).getImgFilename();
             }
         }
         return profilePictureFileName;

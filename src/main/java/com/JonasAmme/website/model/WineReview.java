@@ -16,35 +16,35 @@ import java.util.List;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name="WINE_REVIEWS")
+@Table(name="wine_review")
 public class WineReview {
         @Id
-        @Column(name = "ID", nullable = false)
+        @Column(name = "id", nullable = false)
         @GeneratedValue(strategy = GenerationType.IDENTITY)
-        private Long ID;
+        private Long id;
 
-        @Column(name = "NAME")
-        private String NAME;
-        @Column(name = "TYPE")
-        private String TYPE;
-        @Column(name = "NOTE")
-        private String NOTE;
-        @Column(name = "YEAR")
-        private String YEAR;
-        @Column(name = "PRICE")
-        private String PRICE;
+        @Column(name = "name")
+        private String name;
+        @Column(name = "type")
+        private String type;
+        @Column(name = "note")
+        private String note;
+        @Column(name = "year")
+        private String year;
+        @Column(name = "price")
+        private String price;
 
-        @Column(name = "RATING")
-        private float RATING;
-        @Column(name = "DATE_UPLOADED")
-        private LocalDateTime DATE_UPLOADED = DataHelper.getCurrentTimeStamp();
-        @Column(name = "DATE_MODIFIED")
-        private LocalDateTime DATE_MODIFIED;
-        @Column(name = "PROFILE_PICTURE")
-        private String PROFILE_PICTURE;
+        @Column(name = "rating")
+        private float rating;
+        @Column(name = "date_uploaded")
+        private LocalDateTime dateUploaded = DataHelper.getCurrentTimeStamp();
+        @Column(name = "date_modified")
+        private LocalDateTime dateModified;
+        @Column(name = "profile_picture")
+        private String profilePicture;
 
         @Transient
-        private List<UploadedFiles> photos;
+        private List<UploadedFile> photos;
 
         @Transient
         private String photosToDelete;

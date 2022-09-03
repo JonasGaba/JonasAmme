@@ -8,8 +8,8 @@ import java.util.List;
 public interface WineReviewRepository extends JpaRepository<WineReview,Long> {
     List<WineReview> findAll();
 
-    WineReview findByID(Long ID);
+    //WineReview findById(Long ID);
 
-    void deleteByID(Long ID);
+    void deleteById(Long ID);
 }
 

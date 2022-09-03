@@ -1,7 +1,7 @@
 package com.JonasAmme.website.controller;
 
 import com.JonasAmme.website.model.WineReview;
-import com.JonasAmme.website.service.UploadedFilesService;
+import com.JonasAmme.website.service.UploadedFileService;
 import com.JonasAmme.website.service.WineReviewService;
 import com.JonasAmme.website.utils.FileUpload;
 import org.apache.tomcat.util.http.fileupload.FileUtils;
@@ -33,11 +33,11 @@ public class WineReviewController {
     private WineReviewService wineReviewService;
 
     @Autowired
-    private UploadedFilesService uploadedFilesService;
+    private UploadedFileService uploadedFileService;
 
 
 
-    @GetMapping("/addwinereview")
+    @GetMapping("/admin/addwinereview")
     public String showWineReviewForm(Model model) {
         WineReview wineReview = new WineReview();
         model.addAttribute("wineReview", wineReview);
@@ -50,7 +50,7 @@ public class WineReviewController {
         return "winereviews/add_wine_review";
     }
 
-    @PostMapping("/addwinereview")
+    @PostMapping("/admin/addwinereview")
     public String submitForm(@ModelAttribute("wineReview") WineReview wineReview,
                              @RequestParam("image") MultipartFile[] multipartFiles) throws IOException {
 
@@ -61,7 +61,7 @@ public class WineReviewController {
         // Update with uploaded file children
         wineReviewService.insertWineReview(wineReview);
 
-        String uploadDir = WINE_PHOTOS_BASE_FOLDER + wineReview.getID();
+        String uploadDir = WINE_PHOTOS_BASE_FOLDER + wineReview.getId();
 
         if (hasMultiPartFiles) {
             for (MultipartFile multipartFile : multipartFiles) {
@@ -84,12 +84,12 @@ public class WineReviewController {
     }
 
 
-    @GetMapping("/winereviews/edit/{id}")
+    @GetMapping("/admin/winereviews/edit/{id}")
     public String editSelectedWineReview(@PathVariable(value = "id") String id,
                                          Model model) {
         Long Id = Long.parseLong(id);
         WineReview wineReview = wineReviewService.getWineReviewFromId(Id);
-        wineReview.setPhotos(uploadedFilesService.getFilesFromParent(WINE_REVIEW_PARENT_TYPE, Id));
+        wineReview.setPhotos(uploadedFileService.getFilesFromParent(WINE_REVIEW_PARENT_TYPE, Id));
 
         model.addAttribute("wineReview", wineReview);
         List<String> wineType = getWineTypes();
@@ -99,14 +99,14 @@ public class WineReviewController {
         return "winereviews/edit_selected_wine_review";
     }
 
-    @PostMapping("/winereviews/edit/{id}")
+    @PostMapping("/admin/winereviews/edit/{id}")
     public ModelAndView submitEditedForm(@ModelAttribute("wineReview") WineReview wineReview,
                              @RequestParam("image") MultipartFile[] multipartFiles) throws IOException {
 
 
         boolean hasMultiPartFiles = FileUpload.hasMultiPartFiles(multipartFiles);
 
-        String uploadDir = WINE_PHOTOS_BASE_FOLDER + wineReview.getID();
+        String uploadDir = WINE_PHOTOS_BASE_FOLDER + wineReview.getId();
 
         if (hasMultiPartFiles) {
             for (MultipartFile multipartFile : multipartFiles) {
@@ -121,25 +121,25 @@ public class WineReviewController {
         if (photosToDelete != null && !photosToDelete.isEmpty() ){
             photosToDelete = photosToDelete.substring(0,photosToDelete.length()-1);
 
-            wineReview.setPROFILE_PICTURE(FileUpload.deleteFilesByStringIds(photosToDelete, uploadedFilesService,
-                    WINE_PHOTOS_BASE_FOLDER, wineReview.getID(), WINE_REVIEW_PARENT_TYPE,
-                    wineReview.getPROFILE_PICTURE()));
+            wineReview.setProfilePicture(FileUpload.deleteFilesByStringIds(photosToDelete, uploadedFileService,
+                    WINE_PHOTOS_BASE_FOLDER, wineReview.getId(), WINE_REVIEW_PARENT_TYPE,
+                    wineReview.getProfilePicture()));
         }
 
-        wineReview.setDATE_MODIFIED(LocalDateTime.now());
+        wineReview.setDateModified(LocalDateTime.now());
 
         // Update with uploaded file children
         wineReviewService.insertWineReview(wineReview);
-        return new ModelAndView("redirect:/winereviews/see/"+wineReview.getID());
+        return new ModelAndView("redirect:/winereviews/see/"+wineReview.getId());
     }
 
 
-    @GetMapping("/winereviews/delete/{id}")
+    @GetMapping("/admin/winereviews/delete/{id}")
     public ModelAndView  deleteSelectedWineReview(@PathVariable(value = "id") String id,
                                          Model model) throws IOException {
         Long Id = Long.parseLong(id);
         wineReviewService.deleteWineReviewFromId(Id);
-        uploadedFilesService.deleteFilesFromParent(WINE_REVIEW_PARENT_TYPE,Id);
+        uploadedFileService.deleteFilesFromParent(WINE_REVIEW_PARENT_TYPE,Id);
         FileUtils.deleteDirectory(new File(WINE_PHOTOS_BASE_FOLDER + id));
 
         return new ModelAndView("redirect:/winereviews");
@@ -150,7 +150,7 @@ public class WineReviewController {
                                          Model model) {
         Long Id = Long.parseLong(id);
         WineReview wineReview = wineReviewService.getWineReviewFromId(Id);
-        wineReview.setPhotos(uploadedFilesService.getFilesFromParent(WINE_REVIEW_PARENT_TYPE, Id));
+        wineReview.setPhotos(uploadedFileService.getFilesFromParent(WINE_REVIEW_PARENT_TYPE, Id));
         model.addAttribute("wineReview", wineReview);
 
         return "winereviews/show_selected_wine_review";
@@ -173,12 +173,12 @@ public class WineReviewController {
             return;
         }
 
-        String wineProfilePicture = FileUpload.uploadFilesFromInput(multipartFiles, WINE_REVIEW_PARENT_TYPE, wineReview.getID(), uploadedFilesService);
+        String wineProfilePicture = FileUpload.uploadFilesFromInput(multipartFiles, WINE_REVIEW_PARENT_TYPE, wineReview.getId(), uploadedFileService);
 
         // SET WINE THUMBNAIL "PROFILE PIC"
-        FileUpload.createThumbnailsFromFolder(WINE_PHOTOS_BASE_FOLDER + wineReview.getID()+"/");
-        wineReview.setPROFILE_PICTURE("__th__" + wineProfilePicture);
-        wineReview.setPhotos(uploadedFilesService.getFilesFromParent(WINE_REVIEW_PARENT_TYPE, wineReview.getID()));
+        FileUpload.createThumbnailsFromFolder(WINE_PHOTOS_BASE_FOLDER + wineReview.getId()+"/");
+        wineReview.setProfilePicture("__th__" + wineProfilePicture);
+        wineReview.setPhotos(uploadedFileService.getFilesFromParent(WINE_REVIEW_PARENT_TYPE, wineReview.getId()));
 
     }
 

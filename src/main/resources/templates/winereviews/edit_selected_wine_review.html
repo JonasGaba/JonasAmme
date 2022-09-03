@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCtype html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="ISO-8859-1">
@@ -18,7 +18,7 @@
     <div class="info wine-left-form">
         <p class="backButton">
             <a href="/winereviews" class="btn btn-primary my-2">Back to review gallery</a>
-            <a th:href="@{${'/winereviews/delete/' + wineReview.ID}}" class="btn btn-secondary my-2">Delete review</a>
+            <a th:href="@{${'/admin/winereviews/delete/' + wineReview.id}}" class="btn btn-secondary my-2">Delete review</a>
         </p>
 
         <img src="/assets/img/wine_icon.png" class="icon"/>
@@ -30,27 +30,27 @@
 
 
         <div>
-            <input type="hidden" th:field="*{ID}"/>
+            <input type="hidden" th:field="*{id}"/>
             <label for="wine_name">Name: </label>
-            <input type="text" class="inputFields" th:field="*{NAME}" id="wine_name" name="wine_name"
+            <input type="text" class="inputFields" th:field="*{name}" id="wine_name" name="wine_name"
                    placeholder="Wine Name"/>
         </div>
 
         <div>
             <label for="year">Year: </label>
-            <input type="number" min="1500" max="2100" class="inputFields" th:field="*{YEAR}" id="year" name="year"
+            <input type="number" min="1500" max="2100" class="inputFields" th:field="*{year}" id="year" name="year"
                    step="1" value="2016"/>
         </div>
 
         <div>
             <label for="price">Price: </label>
-            <input type="number" min="0" max="9999999" class="inputFields" th:field="*{PRICE}" id="price"
+            <input type="number" min="0" max="9999999" class="inputFields" th:field="*{price}" id="price"
                    name="price" step="1" value="100"/>
         </div>
 
         <div>
             <label for="wine_type">Type: </label>
-            <select th:field="*{TYPE}" class="inputFields" id="wine_type" name="wine_type"
+            <select th:field="*{type}" class="inputFields" id="wine_type" name="wine_type"
                     placeholder="Wine Type" value="">
                 <option th:each="p : ${wineTypes}" th:value="${p}" th:text="${p}"></option>
             </select>
@@ -60,7 +60,7 @@
             <label for="note" class="labelTextArea">Notes:
             </label>
             <textarea class="inputFields" id="note" name="note"
-                      placeholder="Note" rows="5" cols="25" th:field="*{NOTE}"></textarea>
+                      placeholder="Note" rows="5" cols="25" th:field="*{note}"></textarea>
         </div>
 
         <div>
@@ -68,48 +68,48 @@
             <div id="half-stars">
                 <div class="rating-group">
                     <input class="rating__input rating__input--none" checked name="rating2" id="rating2-0" value="0"
-                           type="radio" th:field="*{RATING}">
+                           type="radio" th:field="*{rating}">
                     <label aria-label="0 stars" class="rating__label zero-stars" for="rating2-0">&nbsp;</label>
                     <label aria-label="0.5 stars" class="rating__label rating__label--half" for="rating2-05"><i
                             class="rating__icon rating__icon--star fa fa-star-half"></i></label>
                     <input class="rating__input" name="rating2" id="rating2-05" value="0.5" type="radio"
-                           th:field="*{RATING}">
+                           th:field="*{rating}">
                     <label aria-label="1 star" class="rating__label" for="rating2-10"><i
                             class="rating__icon rating__icon--star fa fa-star"></i></label>
                     <input class="rating__input" name="rating2" id="rating2-10" value="1" type="radio"
-                           th:field="*{RATING}">
+                           th:field="*{rating}">
                     <label aria-label="1.5 stars" class="rating__label rating__label--half" for="rating2-15"><i
                             class="rating__icon rating__icon--star fa fa-star-half"></i></label>
                     <input class="rating__input" name="rating2" id="rating2-15" value="1.5" type="radio"
-                           th:field="*{RATING}">
+                           th:field="*{rating}">
                     <label aria-label="2 stars" class="rating__label" for="rating2-20"><i
                             class="rating__icon rating__icon--star fa fa-star"></i></label>
                     <input class="rating__input" name="rating2" id="rating2-20" value="2" type="radio"
-                           th:field="*{RATING}">
+                           th:field="*{rating}">
                     <label aria-label="2.5 stars" class="rating__label rating__label--half" for="rating2-25"><i
                             class="rating__icon rating__icon--star fa fa-star-half"></i></label>
                     <input class="rating__input" name="rating2" id="rating2-25" value="2.5" type="radio" checked
-                           th:field="*{RATING}">
+                           th:field="*{rating}">
                     <label aria-label="3 stars" class="rating__label" for="rating2-30"><i
                             class="rating__icon rating__icon--star fa fa-star"></i></label>
                     <input class="rating__input" name="rating2" id="rating2-30" value="3" type="radio"
-                           th:field="*{RATING}">
+                           th:field="*{rating}">
                     <label aria-label="3.5 stars" class="rating__label rating__label--half" for="rating2-35"><i
                             class="rating__icon rating__icon--star fa fa-star-half"></i></label>
                     <input class="rating__input" name="rating2" id="rating2-35" value="3.5" type="radio"
-                           th:field="*{RATING}">
+                           th:field="*{rating}">
                     <label aria-label="4 stars" class="rating__label" for="rating2-40"><i
                             class="rating__icon rating__icon--star fa fa-star"></i></label>
                     <input class="rating__input" name="rating2" id="rating2-40" value="4" type="radio"
-                           th:field="*{RATING}">
+                           th:field="*{rating}">
                     <label aria-label="4.5 stars" class="rating__label rating__label--half" for="rating2-45"><i
                             class="rating__icon rating__icon--star fa fa-star-half"></i></label>
                     <input class="rating__input" name="rating2" id="rating2-45" value="4.5" type="radio"
-                           th:field="*{RATING}">
+                           th:field="*{rating}">
                     <label aria-label="5 stars" class="rating__label" for="rating2-50"><i
                             class="rating__icon rating__icon--star fa fa-star"></i></label>
                     <input class="rating__input" name="rating2" id="rating2-50" value="5" type="radio"
-                           th:field="*{RATING}">
+                           th:field="*{rating}">
                 </div>
             </div>
 
@@ -124,8 +124,8 @@
         <div id="preview" class="thumbnail-container"></div>
         <div id='file-list-display'></div>
 
-        <input type="hidden" th:field="*{PROFILE_PICTURE}"/>
-        <input type="hidden" th:field="*{DATE_UPLOADED}"/>
+        <input type="hidden" th:field="*{profilePicture}"/>
+        <input type="hidden" th:field="*{date_UPLOADED}"/>
         <input type="hidden" id="photos" th:field="*{photos}"/>
         <input type="hidden" id="photosToDelete" th:field="*{photosToDelete}"/>
 
@@ -143,9 +143,9 @@
 <th:block th:each="winePhoto: ${wineReview.photos}">
     <script th:inline="javascript">
         var wPhoto = [[${winePhoto}]];
-        var wId = [[${wineReview.ID}]];
-        var fileId = [[${winePhoto.ID}]];
-        var wPhotoPath = '/wine_review_photos/' + wId + '/thumbnails/\_\_th\_\_' + wPhoto.img_FILENAME;
+        var wId = [[${wineReview.id}]];
+        var fileId = [[${winePhoto.id}]];
+        var wPhotoPath = '/wine_review_photos/' + wId + '/thumbnails/\_\_th\_\_' + wPhoto.img_FILEname;
         previewImage(wPhotoPath, fileId);
 
     </script>

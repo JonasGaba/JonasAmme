@@ -1,5 +1,6 @@
-<!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<!DOCtype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
 
     <!-- Required meta tags -->
@@ -18,7 +19,18 @@
 
 </head>
 <body class = "rating">
-
+<nav class="navbar navbar-expand-lg navbar-light fixed-top py-3" id="mainNav">
+    <div class="container px-4 px-lg-5">
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ms-auto my-2 my-lg-0">
+                <li sec:authorize="${!hasAuthority('ADMIN')}" class="nav-item"><a class="nav-link" href="/admin/login">Login</a></li>
+                <li sec:authorize="${hasAuthority('ADMIN')}" class="nav-item"><a class="nav-link" href="/admin/home">
+                    [[${#request.userPrincipal.principal.username}]]</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
 
 <main role="main">
 
@@ -27,7 +39,10 @@
             <h1 class="jumbotron-heading">Minnen</h1>
             <p class="lead">Amme och Jonas Minnen!!</p>
             <p>
-                <a href="/addmemory" class="btn btn-primary my-2">Add a memory</a>
+                <span sec:authorize="${hasAuthority('ADMIN')}">
+                <a href="/admin/addmemory" class="btn btn-primary my-2">Add a memory</a>
+                </span>
+
                 <a href="/" class="btn btn-secondary my-2">Back to homepage</a>
             </p>
         </div>
@@ -41,21 +56,21 @@
 
                     <div class="col-md-4">
                         <div class="card mb-4 shadow-sm">
-                            <img th:id="${'photo-' + memory.ID}" th:src="'/memories_photos/' + ${memory.ID} + '/thumbnails/' + ${memory.PROFILE_PICTURE}"
+                            <img th:id="${'photo-' + memory.id}" th:src="'/memories_photos/' + ${memory.id} + '/thumbnails/' + ${memory.profilePicture}"
                                  width="100%" height="225" alt = "Photo of memory" onerror="this.src='../assets/img/memories_icon.png'">
                             <div class="card-body memories-card">
                                 <p class="card-text">
-                                <span th:id="${'name-date-' + memory.ID}" class="card-text-title" th:text="${memory.NAME + ' - ' + memory.DATE}"></span>
+                                <span th:id="${'name-date-' + memory.id}" class="card-text-title" th:text="${memory.name + ' - ' + memory.date}"></span>
                                 <p>
-                                <span th:id="${'type-price-' + memory.ID}" class="card-text-it" th:text="${memory.LOCATION}"></span>
+                                <span th:id="${'type-price-' + memory.id}" class="card-text-it" th:text="${memory.location}"></span>
                                 </p>
                                 <p class = "rating">
 
                                 <div class="stars-outer">
-                                    <div th:id ="${'inner-star-' + memory.ID}" class="stars-inner" th:style = "${'width: ' + memory.RATING}"></div>
+                                    <div th:id ="${'inner-star-' + memory.id}" class="stars-inner" th:style = "${'width: ' + memory.rating}"></div>
                                 </div>
                                 <p>
-                                    <span th:id="${'note-' + memory.ID}" class="card-text" th:text="${memory.NOTE}"></span>
+                                    <span th:id="${'note-' + memory.id}" class="card-text" th:text="${memory.note}"></span>
                                 </p>
                                 <script th:inline="javascript">
                                     updateRatingStars([[${memory}]])
@@ -65,8 +80,8 @@
 
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div class="btn-group">
-                                        <a th:href="@{/memories/see/{id}(id = ${memory.ID})}" class="btn btn-primary">View</a>
-                                        <a th:href="@{/memories/edit/{id}(id = ${memory.ID})}" class="btn btn-outline-secondary">Edit</a>
+                                        <a th:href="@{/memory/see/{id}(id = ${memory.id})}" class="btn btn-primary">View</a>
+                                        <a sec:authorize="${hasAuthority('ADMIN')}" th:href="@{/admin/memory/edit/{id}(id = ${memory.id})}" class="btn btn-outline-secondary">Edit</a>
                                     </div>
                                 </div>
                             </div>

@@ -1,5 +1,6 @@
-<!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<!DOCtype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
 
     <!-- Required meta tags -->
@@ -17,7 +18,18 @@
 
 </head>
 <body class = "rating">
-
+<nav class="navbar navbar-expand-lg navbar-light fixed-top py-3" id="mainNav">
+    <div class="container px-4 px-lg-5">
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ms-auto my-2 my-lg-0">
+                <li sec:authorize="${!hasAuthority('ADMIN')}" class="nav-item"><a class="nav-link" href="/admin/login">Login</a></li>
+                <li sec:authorize="${hasAuthority('ADMIN')}" class="nav-item"><a class="nav-link" href="/admin/home">
+                    [[${#request.userPrincipal.principal.username}]]</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
 
 <main role="main">
 
@@ -26,7 +38,10 @@
             <h1 class="jumbotron-heading">Recept</h1>
             <p class="lead">Amme och Jonas Recept!!</p>
             <p>
-                <a href="/addrecipe" class="btn btn-primary my-2">Add a recipe</a>
+                <span sec:authorize="${hasAuthority('ADMIN')}">
+                 <a href="/admin/addrecipe" class="btn btn-primary my-2">Add a recipe</a>
+                </span>
+
                 <a href="/" class="btn btn-secondary my-2">Back to homepage</a>
             </p>
         </div>
@@ -40,14 +55,14 @@
 
                     <div class="col-md-4">
                         <div class="card mb-4 shadow-sm">
-                            <img th:id="${'photo-' + recipe.ID}" th:src="'/recipes_photos/' + ${recipe.ID} + '/thumbnails/' + ${recipe.PROFILE_PICTURE}"
-                                 width="100%" height="225" alt = "Photo of recipe" onerror="this.src='../assets/img/recipes_icon.png'">
+                            <img th:id="${'photo-' + recipe.id}" th:src="'/recipes_photos/' + ${recipe.id} + '/thumbnails/' + ${recipe.profilePicture}"
+                                 width="100%" height="225" alt = "Photo of recipe" onerror="this.src='../assets/img/recipe_icon.png'">
                             <div class="card-body recipes-card">
                                 <p class="card-text">
-                                <span th:id="name" class="card-text-title" th:text="${recipe.NAME}"></span>
+                                <span th:id="name" class="card-text-title" th:text="${recipe.name}"></span>
                                 <p class = "rating">
                                 <div class="stars-outer">
-                                    <div th:id ="${'inner-star-' + recipe.ID}" class="stars-inner" th:style = "${'width: ' + recipe.RATING}"></div>
+                                    <div th:id ="${'inner-star-' + recipe.id}" class="stars-inner" th:style = "${'width: ' + recipe.rating}"></div>
                                 </div>
 
                                 <script th:inline="javascript">
@@ -57,8 +72,8 @@
 
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div class="btn-group">
-                                        <a th:href="@{/recipes/see/{id}(id = ${recipe.ID})}" class="btn btn-primary">View</a>
-                                        <a th:href="@{/recipes/edit/{id}(id = ${recipe.ID})}" class="btn btn-outline-secondary">Edit</a>
+                                        <a th:href="@{/recipe/see/{id}(id = ${recipe.id})}" class="btn btn-primary">View</a>
+                                        <a sec:authorize="${hasAuthority('ADMIN')}" th:href="@{/admin/recipe/edit/{id}(id = ${recipe.id})}" class="btn btn-outline-secondary">Edit</a>
                                     </div>
                                 </div>
                             </div>

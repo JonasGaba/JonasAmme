@@ -1,5 +1,6 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<!DOCtype html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <meta charset="ISO-8859-1">
     <title>Selected Wine Review</title>
@@ -17,43 +18,61 @@
 
 </head>
 
-<body class="recipes-body">
+<body class="recipe-body">
+<body class = "rating">
+<nav class="navbar navbar-expand-lg navbar-light fixed-top py-3" id="mainNav">
+    <div class="container px-4 px-lg-5">
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ms-auto my-2 my-lg-0">
+                <li sec:authorize="${!hasAuthority('ADMIN')}" class="nav-item"><a class="nav-link" href="/admin/login">Login</a></li>
+                <li sec:authorize="${hasAuthority('ADMIN')}" class="nav-item"><a class="nav-link" href="/admin/home">
+                    [[${#request.userPrincipal.principal.username}]]</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
 <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css"
       media="screen">
 <script src="//cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js"></script>
 
-<section class="jumbotron text-center recipes-header">
+<section class="jumbotron text-center recipe-header">
     <div class="container">
         <p>
-            <a href="/recipes" class="btn btn-primary my-2">All recipes</a>
-            <a th:href="@{/recipes/edit/{id}(id = ${recipe.ID})}" class="btn btn-secondary my-2">Edit this recipe</a>
+            <a href="/recipe" class="btn btn-primary my-2">All recipe</a>
+            <span sec:authorize="${hasAuthority('ADMIN')}">
+                <a th:href="@{/admin/recipe/edit/{id}(id = ${recipe.id})}" class="btn btn-secondary my-2">Edit this
+                recipe</a>
+            </span>
+
         </p>
         <h1 class="jumbotron-heading"><span th:id="name"
-                                            th:text="${recipe.NAME}"></span></h1>
+                                            th:text="${recipe.name}"></span></h1>
 
 
         <p class="rating">
         <div class="stars-outer">
-            <div th:id="${'inner-star-' + recipe.ID}" class="stars-inner"
-                 th:style="${'width: ' + recipe.RATING}"></div>
+            <div th:id="${'inner-star-' + recipe.id}" class="stars-inner"
+                 th:style="${'width: ' + recipe.rating}"></div>
         </div>
 
         <p>
         <h2>
             Ingredients
         </h2>
-            <span class="view-text" th:text="${recipe.INGREDIENTS}"></span>
+        <span class="view-text" th:text="${recipe.INGREDIENTS}"></span>
         </p>
 
         <p>
-            <h2>
+        <h2>
             Instructions
-             </h2>
-            <span class="view-text" th:text="${recipe.INSTRUCTIONS}"></span>
+        </h2>
+        <span class="view-text" th:text="${recipe.INSTRUCTIONS}"></span>
         </p>
 
         <script th:inline="javascript">
              updateRatingStars([[${recipe}]]);
+
         </script>
 
 
@@ -67,9 +86,9 @@
         <th:block th:each="recipePhoto: ${recipe.photos}">
 
             <div class="col-lg-3 col-md-4 col-xs-6 thumb">
-                <a th:href="@{${'/recipes_photos/' + recipe.ID + '/' + recipePhoto.IMG_FILENAME}}"
+                <a th:href="@{${'/recipes_photos/' + recipe.id + '/' + recipePhoto.IMG_FILEname}}"
                    class="fancybox" rel="ligthbox">
-                    <img th:src="@{${'/recipes_photos/' + recipe.ID + '/thumbnails/\_\_th\_\_' + recipePhoto.IMG_FILENAME}}"
+                    <img th:src="@{${'/recipes_photos/' + recipe.id + '/thumbnails/\_\_th\_\_' + recipePhoto.IMG_FILEname}}"
                          width="300" height="400" class="zoom img-fluid " alt="">
                 </a>
             </div>

@@ -1,9 +1,9 @@
 package com.JonasAmme.website.controller;
 
-import com.JonasAmme.website.model.Recipes;
+import com.JonasAmme.website.model.Recipe;
 
-import com.JonasAmme.website.service.RecipesService;
-import com.JonasAmme.website.service.UploadedFilesService;
+import com.JonasAmme.website.service.RecipeService;
+import com.JonasAmme.website.service.UploadedFileService;
 import com.JonasAmme.website.utils.FileUpload;
 import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,20 +23,20 @@ import java.util.Objects;
 
 
 @Controller
-public class RecipesController {
-    private static final String RECIPE_PHOTOS_BASE_FOLDER = "recipes_photos/";
+public class RecipeController {
+    private static final String RECIPE_PHOTOS_BASE_FOLDER = "recipe_photos/";
 
     private static final String RECIPE_PARENT_TYPE = "RECIPE";
     @Autowired
-    private RecipesService recipesService;
+    private RecipeService recipeService;
 
     @Autowired
-    private UploadedFilesService uploadedFilesService;
+    private UploadedFileService uploadedFileService;
 
 
-    @GetMapping("/addrecipe")
+    @GetMapping("/admin/addrecipe")
     public String showRecipeForm(Model model) {
-        Recipes recipe = new Recipes();
+        Recipe recipe = new Recipe();
         model.addAttribute("recipe", recipe);
 
 
@@ -45,28 +45,24 @@ public class RecipesController {
         return "recipes/add_recipe";
     }
 
-    @PostMapping("/addrecipe")
-    public String submitForm(@ModelAttribute("recipe") Recipes recipe,
+    @PostMapping("/admin/addrecipe")
+    public String submitForm(@ModelAttribute("recipe") Recipe recipe,
                              @RequestParam("image") MultipartFile[] multipartFiles) throws IOException {
 
-        System.out.println(recipe.getINSTRUCTIONS());
-        System.out.println(recipe.getINGREDIENTS());
-
         // Need to create it here to generate ID
-        recipesService.insertRecipe(recipe);
+        recipeService.insertRecipe(recipe);
         boolean hasMultiPartFiles = (multipartFiles != null && multipartFiles.length > 0);
         if (hasMultiPartFiles){
             hasMultiPartFiles = Arrays.stream(multipartFiles).anyMatch(file->file.getSize()>0);
         }
 
         // Update with uploaded file children
-        recipesService.insertRecipe(recipe);
+        recipeService.insertRecipe(recipe);
 
-        String uploadDir = RECIPE_PHOTOS_BASE_FOLDER + recipe.getID();
+        String uploadDir = RECIPE_PHOTOS_BASE_FOLDER + recipe.getId();
 
         if (hasMultiPartFiles) {
             for (MultipartFile multipartFile : multipartFiles) {
-                System.out.println("HÆR: " + multipartFile.getSize());
                 String fileName = StringUtils.cleanPath(Objects.requireNonNull(multipartFile.getOriginalFilename()));
                 FileUpload.saveFile(uploadDir, fileName, multipartFile);
             }
@@ -81,18 +77,18 @@ public class RecipesController {
 
     @GetMapping("/recipes")
     public String showRecipes(Model model) {
-        List<Recipes> allrecipes = recipesService.getAllRecipes();
+        List<Recipe> allrecipes = recipeService.getAllRecipes();
         model.addAttribute("allRecipes", allrecipes);
         return "recipes/show_recipes";
     }
 
 
-    @GetMapping("/recipes/edit/{id}")
+    @GetMapping("/admin/recipes/edit/{id}")
     public String editSelectedRecipe(@PathVariable(value = "id") String id,
                                      Model model) {
         Long Id = Long.parseLong(id);
-        Recipes recipe = recipesService.getRecipesFromId(Id);
-        recipe.setPhotos(uploadedFilesService.getFilesFromParent(RECIPE_PARENT_TYPE, Id));
+        Recipe recipe = recipeService.getRecipesFromId(Id);
+        recipe.setPhotos(uploadedFileService.getFilesFromParent(RECIPE_PARENT_TYPE, Id));
         model.addAttribute("recipe", recipe);
 
         model.addAttribute("recipePhotos", recipe.getPhotos());
@@ -100,8 +96,8 @@ public class RecipesController {
         return "recipes/edit_selected_recipe";
     }
 
-    @PostMapping("/recipes/edit/{id}")
-    public ModelAndView submitEditedForm(@ModelAttribute("recipe") Recipes recipe,
+    @PostMapping("/admin/recipes/edit/{id}")
+    public ModelAndView submitEditedForm(@ModelAttribute("recipe") Recipe recipe,
                                          @RequestParam("image") MultipartFile[] multipartFiles) throws IOException {
 
 
@@ -112,7 +108,7 @@ public class RecipesController {
             }
         }
 
-        String uploadDir = RECIPE_PHOTOS_BASE_FOLDER + recipe.getID();
+        String uploadDir = RECIPE_PHOTOS_BASE_FOLDER + recipe.getId();
 
         if (hasMultiPartFiles) {
             for (MultipartFile multipartFile : multipartFiles) {
@@ -126,25 +122,25 @@ public class RecipesController {
         String photosToDelete = recipe.getPhotosToDelete();
         if (photosToDelete != null && !photosToDelete.isEmpty()) {
             photosToDelete = photosToDelete.substring(0, photosToDelete.length() - 1);
-            recipe.setPROFILE_PICTURE(FileUpload.deleteFilesByStringIds(photosToDelete, uploadedFilesService,
-                    RECIPE_PHOTOS_BASE_FOLDER, recipe.getID(), RECIPE_PARENT_TYPE,
-                    recipe.getPROFILE_PICTURE()));
+            recipe.setProfilePicture(FileUpload.deleteFilesByStringIds(photosToDelete, uploadedFileService,
+                    RECIPE_PHOTOS_BASE_FOLDER, recipe.getId(), RECIPE_PARENT_TYPE,
+                    recipe.getProfilePicture()));
         }
 
-        recipe.setDATE_MODIFIED(LocalDateTime.now());
+        recipe.setDateModified(LocalDateTime.now());
 
         // Update with uploaded file children
-        recipesService.insertRecipe(recipe);
-        return new ModelAndView("redirect:/recipes/see/" + recipe.getID());
+        recipeService.insertRecipe(recipe);
+        return new ModelAndView("redirect:/recipes/see/" + recipe.getId());
     }
 
 
-    @GetMapping("/recipes/delete/{id}")
+    @GetMapping("/admin/recipes/delete/{id}")
     public ModelAndView deleteSelectedRecipe(@PathVariable(value = "id") String id,
                                              Model model) throws IOException {
         Long Id = Long.parseLong(id);
-        recipesService.deleteRecipesFromId(Id);
-        uploadedFilesService.deleteFilesFromParent(RECIPE_PARENT_TYPE, Id);
+        recipeService.deleteRecipesFromId(Id);
+        uploadedFileService.deleteFilesFromParent(RECIPE_PARENT_TYPE, Id);
         FileUtils.deleteDirectory(new File(RECIPE_PHOTOS_BASE_FOLDER + id));
 
         return new ModelAndView("redirect:/recipes");
@@ -154,25 +150,25 @@ public class RecipesController {
     public String showSelectedRecipe(@PathVariable(value = "id") String id,
                                      Model model) {
         Long Id = Long.parseLong(id);
-        Recipes recipe = recipesService.getRecipesFromId(Id);
-        recipe.setPhotos(uploadedFilesService.getFilesFromParent(RECIPE_PARENT_TYPE, Id));
+        Recipe recipe = recipeService.getRecipesFromId(Id);
+        recipe.setPhotos(uploadedFileService.getFilesFromParent(RECIPE_PARENT_TYPE, Id));
         model.addAttribute("recipe", recipe);
 
         return "recipes/show_selected_recipe";
     }
 
 
-    private void setRecipePhotos(MultipartFile[] multipartFiles, Recipes recipe) {
+    private void setRecipePhotos(MultipartFile[] multipartFiles, Recipe recipe) {
         if (multipartFiles == null || multipartFiles.length < 1) {
             return;
         }
 
-        String recipeProfilePicture = FileUpload.uploadFilesFromInput(multipartFiles, RECIPE_PARENT_TYPE, recipe.getID(), uploadedFilesService);
+        String recipeProfilePicture = FileUpload.uploadFilesFromInput(multipartFiles, RECIPE_PARENT_TYPE, recipe.getId(), uploadedFileService);
 
         // SET recipe THUMBNAIL "PROFILE PIC"
-        FileUpload.createThumbnailsFromFolder(RECIPE_PHOTOS_BASE_FOLDER + recipe.getID() + "/");
-        recipe.setPROFILE_PICTURE("__th__" + recipeProfilePicture);
-        recipe.setPhotos(uploadedFilesService.getFilesFromParent(RECIPE_PARENT_TYPE, recipe.getID()));
+        FileUpload.createThumbnailsFromFolder(RECIPE_PHOTOS_BASE_FOLDER + recipe.getId() + "/");
+        recipe.setProfilePicture("__th__" + recipeProfilePicture);
+        recipe.setPhotos(uploadedFileService.getFilesFromParent(RECIPE_PARENT_TYPE, recipe.getId()));
 
     }
 

@@ -6,6 +6,8 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.thymeleaf.extras.springsecurity5.dialect.SpringSecurityDialect;
+
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -41,5 +43,6 @@ public class MvcConfig implements WebMvcConfigurer {
         if (dirName.startsWith("../")) dirName = dirName.replace("../", "");
         registry.addResourceHandler("/" + dirName + "/**").addResourceLocations("file:/"+ uploadPath + "/");
     }
+
 
 }
