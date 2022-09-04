@@ -24,7 +24,7 @@ public class Memory {
     private Long id;
 
     @Column(name = "name")
-    private String namne;
+    private String name;
     @Column(name = "date")
     private String date;
     @Column(name = "note")

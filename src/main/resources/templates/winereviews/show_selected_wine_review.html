@@ -76,9 +76,9 @@
         <th:block th:each="winePhoto: ${wineReview.photos}">
 
             <div class="col-lg-3 col-md-4 col-xs-6 thumb">
-                <a th:href="@{${'/wine_review_photos/' + wineReview.id + '/' + winePhoto.IMG_FILEname}}"
+                <a th:href="@{${'/wine_review_photos/' + wineReview.id + '/' + winePhoto.imgFilename}}"
                    class="fancybox" rel="ligthbox">
-                    <img th:src="@{${'/wine_review_photos/' + wineReview.id + '/thumbnails/\_\_th\_\_' + winePhoto.IMG_FILEname}}"
+                    <img th:src="@{${'/wine_review_photos/' + wineReview.id + '/thumbnails/\_\_th\_\_' + winePhoto.imgFilename}}"
                          width="300" height="400" class="zoom img-fluid " alt="">
                 </a>
             </div>

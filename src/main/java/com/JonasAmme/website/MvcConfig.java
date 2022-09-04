@@ -26,8 +26,8 @@ public class MvcConfig implements WebMvcConfigurer {
         registry.addResourceHandler( "/css/**").addResourceLocations("classpath:/static/css/");
         registry.addResourceHandler( "/assets/**").addResourceLocations("classpath:/static/assets/");
         exposeDirectory("wine_review_photos", registry);
-        exposeDirectory("memories_photos", registry);
-        exposeDirectory("recipes_photos", registry);
+        exposeDirectory("memory_photos", registry);
+        exposeDirectory("recipe_photos", registry);
 
     }
 

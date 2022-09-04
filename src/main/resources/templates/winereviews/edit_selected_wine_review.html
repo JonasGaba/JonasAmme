@@ -25,7 +25,7 @@
     </div>
     <form action="#" method="POST" class="signupForm wine-card" name="signupform" th:object="${wineReview}"
           enctype="multipart/form-data">
-
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
         <h2>Edit wine review</h2>
 
 
@@ -125,7 +125,7 @@
         <div id='file-list-display'></div>
 
         <input type="hidden" th:field="*{profilePicture}"/>
-        <input type="hidden" th:field="*{date_UPLOADED}"/>
+        <input type="hidden" th:field="*{dateUploaded}"/>
         <input type="hidden" id="photos" th:field="*{photos}"/>
         <input type="hidden" id="photosToDelete" th:field="*{photosToDelete}"/>
 
@@ -145,7 +145,7 @@
         var wPhoto = [[${winePhoto}]];
         var wId = [[${wineReview.id}]];
         var fileId = [[${winePhoto.id}]];
-        var wPhotoPath = '/wine_review_photos/' + wId + '/thumbnails/\_\_th\_\_' + wPhoto.img_FILEname;
+        var wPhotoPath = '/wine_review_photos/' + wId + '/thumbnails/\_\_th\_\_' + wPhoto.imgFilename;
         previewImage(wPhotoPath, fileId);
 
     </script>

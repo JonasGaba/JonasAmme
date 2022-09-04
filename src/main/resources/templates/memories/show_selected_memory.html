@@ -40,8 +40,8 @@
 <section class="jumbotron text-center memory-header">
     <div class="container">
         <p>
-            <a href="/memory" class="btn btn-primary my-2">All memory</a>
-            <a sec:authorize="${hasAuthority('ADMIN')}" th:href="@{/admin/memory/edit/{id}(id = ${memory.id})}" class="btn btn-secondary my-2">Edit this memory</a>
+            <a href="/memories" class="btn btn-primary my-2">All memories</a>
+            <a sec:authorize="${hasAuthority('ADMIN')}" th:href="@{/admin/memories/edit/{id}(id = ${memory.id})}" class="btn btn-secondary my-2">Edit this memory</a>
         </p>
         <h1 class="jumbotron-heading"><span th:id="${'name-location-' + memory.id}"
                                             th:text="${memory.name + ' - ' + memory.location}"></span></h1>
@@ -75,9 +75,9 @@
         <th:block th:each="memoryPhoto: ${memory.photos}">
 
             <div class="col-lg-3 col-md-4 col-xs-6 thumb">
-                <a th:href="@{${'/memories_photos/' + memory.id + '/' + memoryPhoto.IMG_FILEname}}"
+                <a th:href="@{${'/memory_photos/' + memory.id + '/' + memoryPhoto.imgFilename}}"
                    class="fancybox" rel="ligthbox">
-                    <img th:src="@{${'/memories_photos/' + memory.id + '/thumbnails/\_\_th\_\_' + memoryPhoto.IMG_FILEname}}"
+                    <img th:src="@{${'/memory_photos/' + memory.id + '/thumbnails/\_\_th\_\_' + memoryPhoto.imgFilename}}"
                          width="300" height="400" class="zoom img-fluid " alt="">
                 </a>
             </div>

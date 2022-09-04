@@ -16,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -50,7 +51,9 @@ public class MemoryController {
         // Need to create it here to generate ID
         memoryService.insertMemory(memory);
         boolean hasMultiPartFiles = (multipartFiles != null && multipartFiles.length > 0);
-
+        if (hasMultiPartFiles){
+            hasMultiPartFiles = Arrays.stream(multipartFiles).anyMatch(file->file.getSize()>0);
+        }
         // Update with uploaded file children
         memoryService.insertMemory(memory);
 

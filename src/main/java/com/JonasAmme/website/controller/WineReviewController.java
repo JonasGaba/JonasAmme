@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -57,7 +58,9 @@ public class WineReviewController {
         // Need to create it here to generate ID
         wineReviewService.insertWineReview(wineReview);
         boolean hasMultiPartFiles = (multipartFiles != null && multipartFiles.length > 0);
-
+        if (hasMultiPartFiles){
+            hasMultiPartFiles = Arrays.stream(multipartFiles).anyMatch(file->file.getSize()>0);
+        }
         // Update with uploaded file children
         wineReviewService.insertWineReview(wineReview);
 

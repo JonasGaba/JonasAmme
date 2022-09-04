@@ -13,20 +13,20 @@
 
 </head>
 
-<body class="recipe-body">
+<body class="recipes-body">
 <div class="signupSection">
     <div class="info">
         <p class="backButton">
-            <a href="/recipe" class="btn btn-primary my-2">Back to recipe gallery</a>
-            <a th:href="@{${'/admin/recipe/delete/' + recipe.id}}" class="btn btn-secondary my-2">Delete recipe</a>
+            <a href="/recipes" class="btn btn-primary my-2">Back to recipe gallery</a>
+            <a th:href="@{${'/admin/recipes/delete/' + recipe.id}}" class="btn btn-secondary my-2">Delete recipe</a>
         </p>
 
-        <img src="/assets/img/recipes_icon.png" class="icon"/>
+        <img src="/assets/img/recipe_icon.png" class="icon"/>
     </div>
-    <form action="#" method="POST" class="signupForm recipe-card" name="signupform" th:object="${recipe}"
+    <form action="#" method="POST" class="signupForm recipes-card" name="signupform" th:object="${recipe}"
           enctype="multipart/form-data">
 
-
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
         <h2>Edit recipe</h2>
 
 
@@ -41,13 +41,13 @@
         <div>
             <label for="ingredients">Ingredients:</label>
             <textarea class="inputFields" id="ingredients" name="ingredients"
-                      placeholder="Ingredients" rows="5" cols="25" th:field="*{INGREDIENTS}"></textarea>
+                      placeholder="Ingredients" rows="5" cols="25" th:field="*{ingredients}"></textarea>
         </div>
 
         <div>
             <label for="instructions" class="labelTextArea">Instructions:</label>
             <textarea class="inputFields" id="instructions" name="instructions"
-                      placeholder="Instructions" rows="5" cols="25" th:field="*{INSTRUCTIONS}"></textarea>
+                      placeholder="Instructions" rows="5" cols="25" th:field="*{instructions}"></textarea>
         </div>
 
         <div>
@@ -112,7 +112,7 @@
         <div id='file-list-display'></div>
 
         <input type="hidden" th:field="*{profilePicture}"/>
-        <input type="hidden" th:field="*{date_UPLOADED}"/>
+        <input type="hidden" th:field="*{dateUploaded}"/>
         <input type="hidden" id="photos" th:field="*{photos}"/>
         <input type="hidden" id="photosToDelete" th:field="*{photosToDelete}"/>
         <div id="submit">
@@ -131,7 +131,7 @@
         var mPhoto = [[${recipePhoto}]];
         var mId = [[${recipe.id}]];
         var fileId = [[${recipePhoto.id}]];
-        var mPhotoPath = '/recipes_photos/' + mId + '/thumbnails/\_\_th\_\_' + mPhoto.img_FILEname;
+        var mPhotoPath = '/recipes_photo/' + mId + '/thumbnails/\_\_th\_\_' + mPhoto.imgFilename;
         previewImage(mPhotoPath, fileId);
 
     </script>

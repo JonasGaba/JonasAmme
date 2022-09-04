@@ -5,9 +5,9 @@
     <title>Add a wine review</title>
 
 
-    <link rel="stylesheet" href="css/form-style.css">
-    <link rel="stylesheet" href="css/five-star-review-style.css">
-    <link rel="stylesheet" href="css/image-thumbnail-style.css">
+    <link rel="stylesheet" href="/css/form-style.css">
+    <link rel="stylesheet" href="/css/five-star-review-style.css">
+    <link rel="stylesheet" href="/css/image-thumbnail-style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="/css/styles.css" rel="stylesheet"/>
 
@@ -20,10 +20,11 @@
         <p class="backButton">
             <a href="/winereviews" class="btn btn-primary my-2">Back to review gallery</a>
         </p>
-        <img src="assets/img/wine_icon.png" class="icon"/>
+        <img src="/assets/img/wine_icon.png" class="icon"/>
     </div>
     <form id="form" action="#" method="POST" class="signupForm wine-card" name="signupform" th:object="${wineReview}"
           enctype="multipart/form-data">
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
 
         <h2>Add wine review</h2>
         <div>

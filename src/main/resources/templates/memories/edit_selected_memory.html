@@ -13,19 +13,19 @@
 
 </head>
 
-<body class="memory-body">
+<body class="memories-body">
 <div class="signupSection">
     <div class="info">
         <p class="backButton">
-            <a href="/memory" class="btn btn-primary my-2 backButton">Back to memory gallery</a>
-            <a th:href="@{${'/admin/memory/delete/' + memory.id}}" class="btn btn-secondary my-2">Delete memory</a>
+            <a href="/memories" class="btn btn-primary my-2 backButton">Back to memory gallery</a>
+            <a th:href="@{${'/admin/memories/delete/' + memory.id}}" class="btn btn-secondary my-2">Delete memory</a>
         </p>
 
-        <img src="/assets/img/memories_icon.png" class="icon"/>
+        <img src="/assets/img/memory_icon.png" class="icon"/>
     </div>
-    <form action="#" method="POST" class="signupForm memory-card" name="signupform" th:object="${memory}"
+    <form action="#" method="POST" class="signupForm memories-card" name="signupform" th:object="${memory}"
           enctype="multipart/form-data">
-
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
         <h2>Edit memory</h2>
 
 
@@ -116,7 +116,7 @@
         <div id='file-list-display'></div>
 
         <input type="hidden" th:field="*{profilePicture}"/>
-        <input type="hidden" th:field="*{date_UPLOADED}"/>
+        <input type="hidden" th:field="*{dateUploaded}"/>
         <input type="hidden" id="photos" th:field="*{photos}"/>
         <input type="hidden" id="photosToDelete" th:field="*{photosToDelete}"/>
         <div id="submit">
@@ -135,7 +135,7 @@
         var mPhoto = [[${memoryPhoto}]];
         var mId = [[${memory.id}]];
         var fileId = [[${memoryPhoto.id}]];
-        var mPhotoPath = '/memories_photos/' + mId + '/thumbnails/\_\_th\_\_' + mPhoto.img_FILEname;
+        var mPhotoPath = '/memory_photos/' + mId + '/thumbnails/\_\_th\_\_' + mPhoto.imgFilename;
         previewImage(mPhotoPath, fileId);
 
     </script>
