@@ -3,6 +3,7 @@
 <head>
     <meta charset="ISO-8859-1">
     <title>Edit Recipe</title>
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico"/>
 
 
     <link rel="stylesheet" href="/css/form-style.css">
@@ -26,7 +27,7 @@
     <form action="#" method="POST" class="signupForm recipes-card" name="signupform" th:object="${recipe}"
           enctype="multipart/form-data">
 
-        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
         <h2>Edit recipe</h2>
 
 
@@ -133,6 +134,8 @@
         var fileId = [[${recipePhoto.id}]];
         var mPhotoPath = '/recipes_photo/' + mId + '/thumbnails/\_\_th\_\_' + mPhoto.imgFilename;
         previewImage(mPhotoPath, fileId);
+
+
 
     </script>
 </th:block>

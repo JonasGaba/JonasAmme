@@ -1,7 +1,6 @@
 package com.JonasAmme.website.controller;
 
 import com.JonasAmme.website.model.Recipe;
-
 import com.JonasAmme.website.service.RecipeService;
 import com.JonasAmme.website.service.UploadedFileService;
 import com.JonasAmme.website.utils.FileUpload;
@@ -35,7 +34,11 @@ public class RecipeController {
 
 
     @GetMapping("/admin/addrecipe")
-    public String showRecipeForm(Model model) {
+    public String showRecipeForm(Model model, @RequestParam(required = false) String error) {
+
+        if (error != null) {
+            model.addAttribute("error", error);
+        }
         Recipe recipe = new Recipe();
         model.addAttribute("recipe", recipe);
 
@@ -52,8 +55,8 @@ public class RecipeController {
         // Need to create it here to generate ID
         recipeService.insertRecipe(recipe);
         boolean hasMultiPartFiles = (multipartFiles != null && multipartFiles.length > 0);
-        if (hasMultiPartFiles){
-            hasMultiPartFiles = Arrays.stream(multipartFiles).anyMatch(file->file.getSize()>0);
+        if (hasMultiPartFiles) {
+            hasMultiPartFiles = Arrays.stream(multipartFiles).anyMatch(file -> file.getSize() > 0);
         }
 
         // Update with uploaded file children

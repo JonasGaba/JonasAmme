@@ -27,24 +27,27 @@ public class AdminSecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain1(HttpSecurity http) throws Exception {
-        //http.authorizeRequests().antMatchers("/").permitAll();
-        //http.authorizeRequests().antMatchers("/","/wine_photos","/memories_photos","/recipes_photos").permitAll();
 
-        http.antMatcher("/admin/**")
-                .authorizeRequests().anyRequest().hasAuthority("ADMIN")
+        http.antMatcher("/admin/**").authorizeRequests().anyRequest().hasAuthority("ADMIN")
                 .and()
                 .formLogin()
-                .loginPage("/admin/login")
+                .loginPage("/login")
                 .usernameParameter("username")
-                .loginProcessingUrl("/admin/login")
-                .defaultSuccessUrl("/admin/home")
+                .passwordParameter("password")
+                .loginProcessingUrl("/login")
+                .defaultSuccessUrl("/")
                 .permitAll()
                 .and()
                 .logout()
-                .logoutUrl("/admin/logout")
-                .logoutSuccessUrl("/");
+                .logoutUrl("/logout").
+                logoutSuccessUrl("/login");
+        return http.build();
+    }
 
+    @Bean
+    public SecurityFilterChain filterChain2(HttpSecurity http) throws Exception {
 
+        http.antMatcher("/css/**").authorizeRequests().anyRequest().permitAll();
         return http.build();
     }
 }

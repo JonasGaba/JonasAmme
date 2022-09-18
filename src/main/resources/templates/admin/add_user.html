@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="ISO-8859-1">
-    <title>Login </title>
+    <title>Add user </title>
     <link rel="icon" type="image/x-icon" href="assets/favicon.ico"/>
     <link rel="stylesheet" href="/css/form-style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -12,26 +12,30 @@
 
 <div class="signupSection" id="signupSection">
 
-    <form th:action="@{/login}" method="post" class="signupForm wine-card">
-        <h2>Login</h2>
-
-        <div th:if="${param.error}">
-            <h4 style="color: red">[[${session.SPRING_SECURITY_LAST_EXCEPTION.message}]]</h4>
-        </div>
+    <div class="info wine-left-form">
+        <p class="backButton">
+            <a href="admin/admin_home" class="btn btn-primary my-2">Back</a>
+        </p>
+        <img src="/assets/img/admin_icon.png" class="icon"/>
+    </div>
+    <form id="form" action="#" method="post" class="signupForm wine-card" th:object="${user}">
+        <div class="error" th:if="${error != null}" th:text="${error}">Static summary</div>
+        <h2>Add user</h2>
 
         <div>
             <label for="username">Username: </label>
             <input type="text" class="inputFields" id="username" name="username" autofocus="autofocus"
+                   th:field="*{username}"
                    placeholder="Username" value=""/> <br/>
         </div>
 
         <div>
             <label for="password">Password: </label>
-            <input type="password" class="inputFields" id="password" name="password"/> <br/>
+            <input type="password" class="inputFields" id="password" name="password" th:field="*{password}"/> <br/>
         </div>
 
-
-        <input type="submit" value="Log in"/>
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+        <input class="btn btn-primary my-2" type="submit" value="ADD"/>
 
     </form>
 </div>

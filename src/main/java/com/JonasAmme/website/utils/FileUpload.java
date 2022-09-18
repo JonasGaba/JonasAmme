@@ -25,9 +25,10 @@ public class FileUpload {
 
     public static final int thumbNailWidth = 650;
     public static final int thumbNailHeight = 350;
+
     public static void saveFile(String uploadDir, String fileName,
                                 MultipartFile multipartFile) throws IOException {
-        if (multipartFile == null || multipartFile.isEmpty()){
+        if (multipartFile == null || multipartFile.isEmpty()) {
             return;
         }
 
@@ -48,19 +49,19 @@ public class FileUpload {
 
     public static List<String> getFileNamesInDir(String dir) {
         File[] files = new File(dir).listFiles();
-        if (files == null){
+        if (files == null) {
             return null;
         }
         ArrayList<String> filePathList = new ArrayList<>();
-        for(File file : files){
-            if(file.isFile()){
+        for (File file : files) {
+            if (file.isFile()) {
                 filePathList.add(file.getName());
             }
         }
         return filePathList;
     }
 
-    public static UploadedFile insertUploadedFiles(MultipartFile multipartFile, String uploadedBy, String parentType, Long parentID){
+    public static UploadedFile insertUploadedFiles(MultipartFile multipartFile, String uploadedBy, String parentType, Long parentID) {
         // Create file entity object into UPLOADED_FILES Table
         String fileName = StringUtils.cleanPath(Objects.requireNonNull(multipartFile.getOriginalFilename()));
         var uploadedFiles = new UploadedFile();
@@ -72,20 +73,18 @@ public class FileUpload {
         return uploadedFiles;
 
     }
-    public static boolean hasMultiPartFiles(MultipartFile[] multipartFiles){
+
+    public static boolean hasMultiPartFiles(MultipartFile[] multipartFiles) {
 
         boolean hasMultiPartFiles = (multipartFiles != null && multipartFiles.length > 0);
         if (hasMultiPartFiles) {
-            if (multipartFiles[0].isEmpty() || multipartFiles[0].getSize() == 0){
-                return false;
-            }
-        } else{
+            return !multipartFiles[0].isEmpty() && multipartFiles[0].getSize() != 0;
+        } else {
             return false;
         }
-        return true;
     }
 
-    public static String uploadFilesFromInput(MultipartFile[] multipartFiles, String parentType, Long parentId, UploadedFileService uploadedFileService){
+    public static String uploadFilesFromInput(MultipartFile[] multipartFiles, String parentType, Long parentId, UploadedFileService uploadedFileService) {
         String lastFileName = null;
         for (MultipartFile multipartFile : multipartFiles) {
             UploadedFile uploadedFile = insertUploadedFiles(multipartFile, "JONAS", parentType, parentId);
@@ -99,53 +98,53 @@ public class FileUpload {
 
     public static String deleteFilesByStringIds(String photosToDelete, UploadedFileService uploadedFileService,
                                                 String baseFolderPath, Long parentId, String parentType,
-                                                String profilePictureFileName){
+                                                String profilePictureFileName) {
         boolean profilePicWasDeleted = false;
-        for(String fileIdString : photosToDelete.split(",")){
+        for (String fileIdString : photosToDelete.split(",")) {
             Long fileId = Long.parseLong(fileIdString);
             UploadedFile uploadedFile = uploadedFileService.getFileFromId(fileId);
             String fileName = uploadedFile.getImgFilename().trim();
-            if (("__th__" + fileName).equals(profilePictureFileName.trim())){
+            if (("__th__" + fileName).equals(profilePictureFileName.trim())) {
                 profilePicWasDeleted = true;
             }
 
-            File thFile = new File(baseFolderPath + parentId + "/thumbnails/__th__"+fileName);
+            File thFile = new File(baseFolderPath + parentId + "/thumbnails/__th__" + fileName);
             File file = new File(baseFolderPath + parentId + "/" + fileName);
             thFile.delete();
             file.delete();
             uploadedFileService.deleteFileById(fileId);
         }
 
-        if (profilePicWasDeleted){
+        if (profilePicWasDeleted) {
             List<UploadedFile> uploadedFiles = uploadedFileService.getFilesFromParent(parentType, parentId);
-            if (uploadedFiles == null || uploadedFiles.isEmpty()){
+            if (uploadedFiles == null || uploadedFiles.isEmpty()) {
                 return null;
-            }else{
-                return "__th__"+uploadedFiles.get(0).getImgFilename();
+            } else {
+                return "__th__" + uploadedFiles.get(0).getImgFilename();
             }
         }
         return profilePictureFileName;
     }
 
-    public static void createThumbnailsFromFolder(String path){
+    public static void createThumbnailsFromFolder(String path) {
 
-        List <String> fileNames = Arrays.stream(Objects.requireNonNull(new File(path).listFiles()))
+        List<String> fileNames = Arrays.stream(Objects.requireNonNull(new File(path).listFiles()))
                 .filter(file -> !file.isDirectory())
                 .map(File::getName).toList();
         File folder = new File(path + "thumbnails");
 
         if (!folder.exists()) {
-            if(!folder.mkdir()){
+            if (!folder.mkdir()) {
                 throw new RuntimeException(new IOException("Cannot create thumbnail folder"));
             }
         }
 
-        for (String fileName : fileNames){
+        for (String fileName : fileNames) {
             Image resultingImage;
-            System.out.println(path+fileName);
+            System.out.println(path + fileName);
             try {
-                final BufferedImage image = ImageIO.read(new File(path+fileName));
-                if (image == null){
+                final BufferedImage image = ImageIO.read(new File(path + fileName));
+                if (image == null) {
                     return;
                 }
                 resultingImage = image.getScaledInstance(thumbNailWidth, thumbNailHeight, Image.SCALE_DEFAULT);
@@ -168,7 +167,6 @@ public class FileUpload {
 
 
     }
-
 
 
 }

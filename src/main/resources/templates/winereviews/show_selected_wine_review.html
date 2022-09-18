@@ -4,6 +4,7 @@
 <head>
     <meta charset="ISO-8859-1">
     <title>Selected Wine Review</title>
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico"/>
     <link rel="stylesheet" href="/css/site.css">
     <link rel="stylesheet" href="/css/image_gallery.css">
     <link rel="stylesheet" href="/css/album.css">
@@ -20,13 +21,14 @@
 
 </head>
 
-<body class = "wine-body">
-<body class = "rating">
+<body class="wine-body">
+<body class="rating">
 <nav class="navbar navbar-expand-lg navbar-light fixed-top py-3" id="mainNav">
     <div class="container px-4 px-lg-5">
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ms-auto my-2 my-lg-0">
-                <li sec:authorize="${!hasAuthority('ADMIN')}" class="nav-item"><a class="nav-link" href="/admin/login">Login</a></li>
+                <li sec:authorize="${!hasAuthority('ADMIN')}" class="nav-item"><a class="nav-link" href="/logout">[[${#request.userPrincipal.principal.username}]]
+                    - Logout</a></li>
                 <li sec:authorize="${hasAuthority('ADMIN')}" class="nav-item"><a class="nav-link" href="/admin/home">
                     [[${#request.userPrincipal.principal.username}]]</a>
                 </li>
@@ -43,7 +45,8 @@
         <p>
             <a href="/winereviews" class="btn btn-primary my-2">All reviews</a>
 
-            <a sec:authorize="${hasAuthority('ADMIN')}" th:href="@{/admin/winereviews/edit/{id}(id = ${wineReview.id})}" class="btn btn-secondary my-2">Edit this review</a>
+            <a sec:authorize="${hasAuthority('ADMIN')}" th:href="@{/admin/winereviews/edit/{id}(id = ${wineReview.id})}"
+               class="btn btn-secondary my-2">Edit this review</a>
         </p>
         <h1 class="jumbotron-heading"><span th:id="${'name-year-' + wineReview.id}"
                                             th:text="${wineReview.name + ' - ' + wineReview.year}"></span></h1>
@@ -63,6 +66,8 @@
         <script th:inline="javascript">
              change_wine_review_view([[${wineReview}]]);
             updateRatingStars([[${wineReview}]])
+
+
         </script>
 
 
@@ -87,6 +92,6 @@
 
 </div>
 
-<script src="/js/review_image_gallery.js"></script>
+<script src="/js/image_gallery.js"></script>
 
 </body>

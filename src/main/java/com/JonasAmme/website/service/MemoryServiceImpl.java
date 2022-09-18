@@ -16,22 +16,22 @@ public class MemoryServiceImpl implements MemoryService {
     MemoryRepository memoryRepository;
 
     @Override
-    public void insertMemory(Memory memory){
+    public void insertMemory(Memory memory) {
         memoryRepository.save(memory);
     }
 
     @Override
-    public List<Memory> getAllMemories(){
+    public List<Memory> getAllMemories() {
         return memoryRepository.findAll();
     }
 
     @Override
-    public Memory getMemoriesFromId(Long id){
-        return memoryRepository.findById(id).isPresent() ? memoryRepository.findById(id).get():null;
+    public Memory getMemoriesFromId(Long id) {
+        return memoryRepository.findById(id).isPresent() ? memoryRepository.findById(id).get() : null;
     }
 
     @Override
-    public void deleteMemoriesFromId(Long id){
+    public void deleteMemoriesFromId(Long id) {
         memoryRepository.deleteById(id);
     }
 }

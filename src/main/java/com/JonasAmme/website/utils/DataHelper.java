@@ -5,7 +5,7 @@ import java.time.format.DateTimeFormatter;
 
 public class DataHelper {
 
-    public static LocalDateTime getCurrentTimeStamp(){
+    public static LocalDateTime getCurrentTimeStamp() {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
         return LocalDateTime.now();
     }

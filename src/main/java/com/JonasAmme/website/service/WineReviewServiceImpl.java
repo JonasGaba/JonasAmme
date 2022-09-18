@@ -16,22 +16,22 @@ public class WineReviewServiceImpl implements WineReviewService {
     WineReviewRepository wineReviewRepository;
 
     @Override
-    public void insertWineReview(WineReview wineReview){
+    public void insertWineReview(WineReview wineReview) {
         wineReviewRepository.save(wineReview);
     }
 
     @Override
-    public List<WineReview> getAllWineReviews(){
+    public List<WineReview> getAllWineReviews() {
         return wineReviewRepository.findAll();
     }
 
     @Override
-    public WineReview getWineReviewFromId(Long id){
-        return wineReviewRepository.findById(id).isPresent() ? wineReviewRepository.findById(id).get():null;
+    public WineReview getWineReviewFromId(Long id) {
+        return wineReviewRepository.findById(id).isPresent() ? wineReviewRepository.findById(id).get() : null;
     }
 
     @Override
-    public void deleteWineReviewFromId(Long id){
+    public void deleteWineReviewFromId(Long id) {
         wineReviewRepository.deleteById(id);
     }
 }

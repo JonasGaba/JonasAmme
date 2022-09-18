@@ -16,22 +16,22 @@ public class RecipeServiceImpl implements RecipeService {
     RecipeRepository recipeRepository;
 
     @Override
-    public void insertRecipe(Recipe recipe){
+    public void insertRecipe(Recipe recipe) {
         recipeRepository.save(recipe);
     }
 
     @Override
-    public List<Recipe> getAllRecipes(){
+    public List<Recipe> getAllRecipes() {
         return recipeRepository.findAll();
     }
 
     @Override
-    public Recipe getRecipesFromId(Long id){
-        return recipeRepository.findById(id).isPresent() ? recipeRepository.findById(id).get():null;
+    public Recipe getRecipesFromId(Long id) {
+        return recipeRepository.findById(id).isPresent() ? recipeRepository.findById(id).get() : null;
     }
 
     @Override
-    public void deleteRecipesFromId(Long id){
+    public void deleteRecipesFromId(Long id) {
         recipeRepository.deleteById(id);
     }
 }

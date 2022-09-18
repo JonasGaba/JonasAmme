@@ -6,7 +6,6 @@ import com.JonasAmme.website.service.WineReviewService;
 import com.JonasAmme.website.utils.FileUpload;
 import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -36,10 +35,13 @@ public class WineReviewController {
     @Autowired
     private UploadedFileService uploadedFileService;
 
-
-
     @GetMapping("/admin/addwinereview")
-    public String showWineReviewForm(Model model) {
+    public String showWineReviewForm(Model model, @RequestParam(required = false) String error) {
+
+        if (error != null) {
+            model.addAttribute("error", error);
+        }
+
         WineReview wineReview = new WineReview();
         model.addAttribute("wineReview", wineReview);
 
@@ -51,6 +53,15 @@ public class WineReviewController {
         return "winereviews/add_wine_review";
     }
 
+    /*
+        @GetMapping("/admin/addwinereview")
+        public String wineReviewError(Model model, @RequestParam String error) {
+
+            model.addAttribute("error", error);
+
+            return showWineReviewForm(model);
+        }
+    */
     @PostMapping("/admin/addwinereview")
     public String submitForm(@ModelAttribute("wineReview") WineReview wineReview,
                              @RequestParam("image") MultipartFile[] multipartFiles) throws IOException {
@@ -58,8 +69,8 @@ public class WineReviewController {
         // Need to create it here to generate ID
         wineReviewService.insertWineReview(wineReview);
         boolean hasMultiPartFiles = (multipartFiles != null && multipartFiles.length > 0);
-        if (hasMultiPartFiles){
-            hasMultiPartFiles = Arrays.stream(multipartFiles).anyMatch(file->file.getSize()>0);
+        if (hasMultiPartFiles) {
+            hasMultiPartFiles = Arrays.stream(multipartFiles).anyMatch(file -> file.getSize() > 0);
         }
         // Update with uploaded file children
         wineReviewService.insertWineReview(wineReview);
@@ -72,7 +83,7 @@ public class WineReviewController {
                 FileUpload.saveFile(uploadDir, fileName, multipartFile);
             }
         }
-            // Add files
+        // Add files
         if (hasMultiPartFiles) {
             setWineReviewPhotos(multipartFiles, wineReview);
         }
@@ -104,7 +115,7 @@ public class WineReviewController {
 
     @PostMapping("/admin/winereviews/edit/{id}")
     public ModelAndView submitEditedForm(@ModelAttribute("wineReview") WineReview wineReview,
-                             @RequestParam("image") MultipartFile[] multipartFiles) throws IOException {
+                                         @RequestParam("image") MultipartFile[] multipartFiles) throws IOException {
 
 
         boolean hasMultiPartFiles = FileUpload.hasMultiPartFiles(multipartFiles);
@@ -121,8 +132,8 @@ public class WineReviewController {
 
         // Delete photos set for deletion
         String photosToDelete = wineReview.getPhotosToDelete();
-        if (photosToDelete != null && !photosToDelete.isEmpty() ){
-            photosToDelete = photosToDelete.substring(0,photosToDelete.length()-1);
+        if (photosToDelete != null && !photosToDelete.isEmpty()) {
+            photosToDelete = photosToDelete.substring(0, photosToDelete.length() - 1);
 
             wineReview.setProfilePicture(FileUpload.deleteFilesByStringIds(photosToDelete, uploadedFileService,
                     WINE_PHOTOS_BASE_FOLDER, wineReview.getId(), WINE_REVIEW_PARENT_TYPE,
@@ -133,16 +144,16 @@ public class WineReviewController {
 
         // Update with uploaded file children
         wineReviewService.insertWineReview(wineReview);
-        return new ModelAndView("redirect:/winereviews/see/"+wineReview.getId());
+        return new ModelAndView("redirect:/winereviews/see/" + wineReview.getId());
     }
 
 
     @GetMapping("/admin/winereviews/delete/{id}")
-    public ModelAndView  deleteSelectedWineReview(@PathVariable(value = "id") String id,
-                                         Model model) throws IOException {
+    public ModelAndView deleteSelectedWineReview(@PathVariable(value = "id") String id,
+                                                 Model model) throws IOException {
         Long Id = Long.parseLong(id);
         wineReviewService.deleteWineReviewFromId(Id);
-        uploadedFileService.deleteFilesFromParent(WINE_REVIEW_PARENT_TYPE,Id);
+        uploadedFileService.deleteFilesFromParent(WINE_REVIEW_PARENT_TYPE, Id);
         FileUtils.deleteDirectory(new File(WINE_PHOTOS_BASE_FOLDER + id));
 
         return new ModelAndView("redirect:/winereviews");
@@ -163,7 +174,7 @@ public class WineReviewController {
         List<String> result;
         try (Stream<String> lines = Files.lines(Paths.get("src/main/resources/static/assets/misc/list-of-wine-types.txt"))) {
             result = lines.collect(Collectors.toList());
-        } catch (IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
             return null;
         }
@@ -172,14 +183,14 @@ public class WineReviewController {
 
 
     private void setWineReviewPhotos(MultipartFile[] multipartFiles, WineReview wineReview) {
-        if (multipartFiles == null || multipartFiles.length<1){
+        if (multipartFiles == null || multipartFiles.length < 1) {
             return;
         }
 
         String wineProfilePicture = FileUpload.uploadFilesFromInput(multipartFiles, WINE_REVIEW_PARENT_TYPE, wineReview.getId(), uploadedFileService);
 
         // SET WINE THUMBNAIL "PROFILE PIC"
-        FileUpload.createThumbnailsFromFolder(WINE_PHOTOS_BASE_FOLDER + wineReview.getId()+"/");
+        FileUpload.createThumbnailsFromFolder(WINE_PHOTOS_BASE_FOLDER + wineReview.getId() + "/");
         wineReview.setProfilePicture("__th__" + wineProfilePicture);
         wineReview.setPhotos(uploadedFileService.getFilesFromParent(WINE_REVIEW_PARENT_TYPE, wineReview.getId()));
 

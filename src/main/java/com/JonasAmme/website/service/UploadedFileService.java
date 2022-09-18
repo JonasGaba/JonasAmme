@@ -17,5 +17,6 @@ public interface UploadedFileService {
     List<UploadedFile> getFilesFromParent(String parentType, Long parentId);
 
     void deleteFilesFromParent(String parentType, Long parentId);
+
     void deleteFileById(Long Id);
 }

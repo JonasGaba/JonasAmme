@@ -16,7 +16,7 @@ import java.util.List;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name="memory")
+@Table(name = "memory")
 public class Memory {
     @Id
     @Column(name = "id", nullable = false)

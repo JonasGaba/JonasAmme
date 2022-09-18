@@ -17,14 +17,16 @@
     <script src="/js/updateRatingStars.js"></script>
     <script src="/js/truncateNote.js"></script>
     <title>Wine Reviews</title>
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico"/>
 
 </head>
-<body class = "rating">
+<body class="rating">
 <nav class="navbar navbar-expand-lg navbar-light fixed-top py-3" id="mainNav">
     <div class="container px-4 px-lg-5">
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ms-auto my-2 my-lg-0">
-                <li sec:authorize="${!hasAuthority('ADMIN')}" class="nav-item"><a class="nav-link" href="/admin/login">Login</a></li>
+                <li sec:authorize="${!hasAuthority('ADMIN')}" class="nav-item"><a class="nav-link" href="/logout">[[${#request.userPrincipal.principal.username}]]
+                    - Logout</a></li>
                 <li sec:authorize="${hasAuthority('ADMIN')}" class="nav-item"><a class="nav-link" href="/admin/home">
                     [[${#request.userPrincipal.principal.username}]]</a>
                 </li>
@@ -43,13 +45,13 @@
                 <a href="/admin/addwinereview" class="btn btn-primary my-2">Add a review</a>
             </span>
 
-                <a href="/" class="btn btn-secondary my-2">Back to homepage</a>
+            <a href="/" class="btn btn-secondary my-2">Back to homepage</a>
             </p>
         </div>
     </section>
 
-<!-- class="album py-5 bg-light" -->
-    <div class="album py-5 wine-body" >
+    <!-- class="album py-5 bg-light" -->
+    <div class="album py-5 wine-body">
         <div class="container album-min-size">
 
             <div class="row">
@@ -57,38 +59,49 @@
 
                     <div class="col-md-4">
                         <div class="card mb-4 shadow-sm">
-                            <img th:id="${'photo-' + wineReview.id}" th:src="'/wine_review_photos/' + ${wineReview.id} + '/thumbnails/' + ${wineReview.profilePicture}"
-                                 width="100%" height="225" alt = "Photo of wine" onerror="this.src='../assets/img/wine_icon.png'">
+                            <img th:id="${'photo-' + wineReview.id}"
+                                 th:src="'/wine_review_photos/' + ${wineReview.id} + '/thumbnails/' + ${wineReview.profilePicture}"
+                                 width="100%" height="225" alt="Photo of wine"
+                                 onerror="this.src='../assets/img/wine_icon.png'">
                             <div class="card-body wine-card">
                                 <p class="card-text">
-                                <span th:id="${'name-year-' + wineReview.id}" class="card-text-title" th:text="${wineReview.name + ' - ' + wineReview.year}"></span>
+                                    <span th:id="${'name-year-' + wineReview.id}" class="card-text-title"
+                                          th:text="${wineReview.name + ' - ' + wineReview.year}"></span>
                                 <p>
-                                <span th:id="${'type-price-' + wineReview.id}" class="card-text-it" th:text="${wineReview.type + ' - ' + wineReview.price + 'kr'}"></span>
+                                    <span th:id="${'type-price-' + wineReview.id}" class="card-text-it"
+                                          th:text="${wineReview.type + ' - ' + wineReview.price + 'kr'}"></span>
                                 </p>
-                                <p class = "rating">
+                                <p class="rating">
 
                                 <div class="stars-outer">
-                                    <div th:id ="${'inner-star-' + wineReview.id}" class="stars-inner" th:style = "${'width: ' + wineReview.rating}"></div>
+                                    <div th:id="${'inner-star-' + wineReview.id}" class="stars-inner"
+                                         th:style="${'width: ' + wineReview.rating}"></div>
                                 </div>
                                 <p>
-                                    <span th:id="${'note-' + wineReview.id}" class="card-text" th:text="${wineReview.note}"></span>
+                                    <span th:id="${'note-' + wineReview.id}" class="card-text"
+                                          th:text="${wineReview.note}"></span>
                                 </p>
                                 <script th:inline="javascript">
                                     change_wine_review_view([[${wineReview}]]);
                                     updateRatingStars([[${wineReview}]]);
                                     truncateNote([[${wineReview}]]);
+
+
                                 </script>
 
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div class="btn-group">
-                                        <a th:href="@{/winereviews/see/{id}(id = ${wineReview.id})}" class="btn btn-primary">View</a>
-                                        <a sec:authorize="${hasAuthority('ADMIN')}" th:href="@{/admin/winereviews/edit/{id}(id = ${wineReview.id})}" class="btn btn-outline-secondary">Edit</a>
+                                        <a th:href="@{/winereviews/see/{id}(id = ${wineReview.id})}"
+                                           class="btn btn-primary">View</a>
+                                        <a sec:authorize="${hasAuthority('ADMIN')}"
+                                           th:href="@{/admin/winereviews/edit/{id}(id = ${wineReview.id})}"
+                                           class="btn btn-outline-secondary">Edit</a>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    </th:block>
+                </th:block>
             </div>
         </div>
     </div>

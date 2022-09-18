@@ -3,6 +3,7 @@
 <head>
     <meta charset="ISO-8859-1">
     <title>Add a wine review</title>
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico"/>
 
 
     <link rel="stylesheet" href="/css/form-style.css">
@@ -24,28 +25,30 @@
     </div>
     <form id="form" action="#" method="POST" class="signupForm wine-card" name="signupform" th:object="${wineReview}"
           enctype="multipart/form-data">
-        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+
+        <div class="error" th:if="${error != null}" th:text="${error}">Static summary</div>
 
         <h2>Add wine review</h2>
         <div>
-            <label  for="wine_name">Name: </label>
+            <label for="wine_name">Name: </label>
             <input type="text" class="inputFields" th:field="*{name}" id="wine_name" name="wine_name"
                    placeholder="Wine Name" value="" required/>
         </div>
         <div>
-            <label  for="year">Year: </label>
+            <label for="year">Year: </label>
             <input type="number" min="1500" max="2100" class="inputFields" th:field="*{year}" id="year" name="year"
                    step="1" value="2016"/>
         </div>
 
         <div>
-            <label  for="price">Price: </label>
+            <label for="price">Price: </label>
             <input type="number" min="0" max="9999999" class="inputFields" th:field="*{price}" id="price"
                    name="price" step="1" value="100"/>
         </div>
 
         <div>
-            <label  for="wine_type">Type: </label>
+            <label for="wine_type">Type: </label>
             <select th:field="*{type}" class="inputFields" id="wine_type" name="wine_type"
                     placeholder="Wine Type" value="">
                 <option th:each="p : ${wineTypes}" th:value="${p}" th:text="${p}"></option>
@@ -53,14 +56,14 @@
         </div>
 
         <div>
-            <label  for="note">Notes:
+            <label for="note">Notes:
             </label>
             <textarea class="inputFields" id="note" name="note"
                       placeholder="Note" rows="5" cols="25" th:field="*{note}"></textarea>
         </div>
 
         <div>
-            <label  for="half-stars">Rating: </label>
+            <label for="half-stars">Rating: </label>
             <div id="half-stars">
                 <div class="rating-group">
                     <input class="rating__input rating__input--none" checked name="rating2" id="rating2-0" value="0"
@@ -109,20 +112,20 @@
                 </div>
             </div>
         </div>
-            <div>
-                <label  for="file-input">Images: </label>
-                <input id="file-input" type="file" name="image" accept="image/png, image/jpeg" class="inputFields"
-                       multiple/>
-            </div>
+        <div>
+            <label for="file-input">Images: </label>
+            <input id="file-input" type="file" name="image" accept="image/png, image/jpeg" class="inputFields"
+                   multiple/>
+        </div>
 
 
-            <div id="preview" class="thumbnail-container"></div>
-            <div id='file-list-display'></div>
+        <div id="preview" class="thumbnail-container"></div>
+        <div id='file-list-display'></div>
 
 
-            <div id="submit">
-                <input type="submit" id="submit-btn" name="submit" alt="Submit" value="Submit">
-            </div>
+        <div id="submit">
+            <input type="submit" id="submit-btn" name="submit" alt="Submit" value="Submit">
+        </div>
     </form>
 </div>
 

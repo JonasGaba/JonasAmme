@@ -26,7 +26,15 @@
     <div class="container px-4 px-lg-5">
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ms-auto my-2 my-lg-0">
-                <li sec:authorize="${!hasAuthority('ADMIN')}" class="nav-item"><a class="nav-link" href="/admin/login">Login</a></li>
+                <li sec:authorize="${!hasAuthority('ADMIN')}" class="nav-item">
+
+                    <form th:action="@{/logout}" method="POST">
+                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                        <input class="nav-link user-logout" type="submit"
+                               th:value="${#request.userPrincipal.principal.username + ' - Logout'}">
+                    </form>
+
+                </li>
                 <li sec:authorize="${hasAuthority('ADMIN')}" class="nav-item"><a class="nav-link" href="/admin/home">
                     [[${#request.userPrincipal.principal.username}]]</a>
                 </li>

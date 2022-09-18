@@ -10,32 +10,22 @@ import org.springframework.security.web.SecurityFilterChain;
 @Order(2)
 public class UserSecurityConfig {
     @Bean
-    public SecurityFilterChain filterChain2(HttpSecurity http) throws Exception {
+    public SecurityFilterChain filterChain3(HttpSecurity http) throws Exception {
 
-        http.antMatcher("/user/**")
-                .authorizeRequests().anyRequest().hasAnyAuthority("USER")
+        http.antMatcher("/**")
+                .authorizeRequests().anyRequest().hasAnyAuthority("USER", "ADMIN")
                 .and()
                 .formLogin()
-                .loginPage("/user/login")
+                .loginPage("/login")
                 .usernameParameter("username")
-                .loginProcessingUrl("/user/login")
-                .defaultSuccessUrl("/user/home")
+                .passwordParameter("password")
+                .loginProcessingUrl("/login")
+                .defaultSuccessUrl("/")
                 .permitAll()
                 .and()
                 .logout()
-                .logoutUrl("/user/logout")
-                .logoutSuccessUrl("/");
-
-        return http.build();
-    }
-
-    @Bean
-    public SecurityFilterChain filterChain3(HttpSecurity http) throws Exception {
-
-        http.authorizeRequests()
-                //.antMatchers("/","../static/index","/winereviews", "/memories", "/recipes", "/recipes").permitAll()
-                .antMatchers("/**").permitAll()
-                .anyRequest().authenticated();
+                .logoutUrl("/logout").
+                logoutSuccessUrl("/login");
 
         return http.build();
     }

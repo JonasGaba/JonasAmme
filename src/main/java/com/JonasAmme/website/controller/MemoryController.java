@@ -34,7 +34,12 @@ public class MemoryController {
 
 
     @GetMapping("/admin/addmemory")
-    public String showWineReviewForm(Model model) {
+    public String showMemoryReviewForm(Model model, @RequestParam(required = false) String error) {
+
+        if (error != null) {
+            model.addAttribute("error", error);
+        }
+
         Memory memory = new Memory();
         model.addAttribute("memory", memory);
 
@@ -51,8 +56,8 @@ public class MemoryController {
         // Need to create it here to generate ID
         memoryService.insertMemory(memory);
         boolean hasMultiPartFiles = (multipartFiles != null && multipartFiles.length > 0);
-        if (hasMultiPartFiles){
-            hasMultiPartFiles = Arrays.stream(multipartFiles).anyMatch(file->file.getSize()>0);
+        if (hasMultiPartFiles) {
+            hasMultiPartFiles = Arrays.stream(multipartFiles).anyMatch(file -> file.getSize() > 0);
         }
         // Update with uploaded file children
         memoryService.insertMemory(memory);
@@ -82,7 +87,7 @@ public class MemoryController {
 
     @GetMapping("/admin/memories/edit/{id}")
     public String editSelectedMemory(@PathVariable(value = "id") String id,
-                                         Model model) {
+                                     Model model) {
         Long Id = Long.parseLong(id);
         Memory memory = memoryService.getMemoriesFromId(Id);
         memory.setPhotos(uploadedFileService.getFilesFromParent(MEMORY_PARENT_TYPE, Id));
@@ -134,7 +139,7 @@ public class MemoryController {
 
     @GetMapping("/admin/memories/delete/{id}")
     public ModelAndView deleteSelectedMemory(@PathVariable(value = "id") String id,
-                                                 Model model) throws IOException {
+                                             Model model) throws IOException {
         Long Id = Long.parseLong(id);
         memoryService.deleteMemoriesFromId(Id);
         uploadedFileService.deleteFilesFromParent(MEMORY_PARENT_TYPE, Id);
@@ -145,7 +150,7 @@ public class MemoryController {
 
     @GetMapping("/memories/see/{id}")
     public String showSelectedMemory(@PathVariable(value = "id") String id,
-                                         Model model) {
+                                     Model model) {
         Long Id = Long.parseLong(id);
         Memory memory = memoryService.getMemoriesFromId(Id);
         memory.setPhotos(uploadedFileService.getFilesFromParent(MEMORY_PARENT_TYPE, Id));

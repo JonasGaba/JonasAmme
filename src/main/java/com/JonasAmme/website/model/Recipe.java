@@ -16,7 +16,7 @@ import java.util.List;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name="recipe")
+@Table(name = "recipe")
 public class Recipe {
     @Id
     @Column(name = "id", nullable = false)

@@ -3,6 +3,7 @@
 <head>
     <meta charset="ISO-8859-1">
     <title>Add a memory</title>
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico"/>
 
 
     <link rel="stylesheet" href="/css/form-style.css">
@@ -21,99 +22,101 @@
         </p>
         <img src="/assets/img/memory_icon.png" class="icon"/>
     </div>
-    <form id = "form" action="#" method="POST" class="signupForm memories-card" name="signupform" th:object="${memory}"
+    <form id="form" action="#" method="POST" class="signupForm memories-card" name="signupform" th:object="${memory}"
           enctype="multipart/form-data">
-        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+        <div class="error" th:if="${error != null}" th:text="${error}">Static summary</div>
 
         <h2>Add a memory</h2>
-            <div>
-                <label for="name">Name: </label>
-                <input type="text" class="inputFields" th:field="*{name}" id="name" name="name"
-                       placeholder="Name" value="" required/>
-            </div>
+        <div>
+            <label for="name">Name: </label>
+            <input type="text" class="inputFields" th:field="*{name}" id="name" name="name"
+                   placeholder="Name" value="" required/>
+        </div>
 
-            <div>
-                <label for="location">Location: </label>
-                <input type="text" class="inputFields" th:field="*{location}" id="location" name="location"
-                       placeholder="Location" value=""/>
-            </div>
+        <div>
+            <label for="location">Location: </label>
+            <input type="text" class="inputFields" th:field="*{location}" id="location" name="location"
+                   placeholder="Location" value=""/>
+        </div>
 
-            <div>
-                <label for="date">Date: </label>
-                <input type="date" class="inputFields" th:field="*{date}" id="date" name="date"/>
-            </div>
+        <div>
+            <label for="date">Date: </label>
+            <input type="date" class="inputFields" th:field="*{date}" id="date" name="date"/>
+        </div>
 
-            <div>
-                <label for="note">Notes:
-                </label>
-                <textarea class="inputFields" id="note" name="note"
-                          placeholder="Note" rows="5" cols="25" th:field="*{note}"></textarea>
-            </div>
+        <div>
+            <label for="note">Notes:
+            </label>
+            <textarea class="inputFields" id="note" name="note"
+                      placeholder="Note" rows="5" cols="25" th:field="*{note}"></textarea>
+        </div>
 
-            <div>
-                <label for="half-stars">Rating: </label>
-                <div id="half-stars">
-                    <div class="rating-group">
-                        <input class="rating__input rating__input--none" checked name="rating2" id="rating2-0" value="0"
-                               type="radio" th:field="*{rating}">
-                        <label aria-label="0 stars" class="rating__label zero-stars" for="rating2-0">&nbsp;</label>
-                        <label aria-label="0.5 stars" class="rating__label rating__label--half" for="rating2-05"><i
-                                class="rating__icon rating__icon--star fa fa-star-half"></i></label>
-                        <input class="rating__input" name="rating2" id="rating2-05" value="0.5" type="radio"
-                               th:field="*{rating}">
-                        <label aria-label="1 star" class="rating__label" for="rating2-10"><i
-                                class="rating__icon rating__icon--star fa fa-star"></i></label>
-                        <input class="rating__input" name="rating2" id="rating2-10" value="1" type="radio"
-                               th:field="*{rating}">
-                        <label aria-label="1.5 stars" class="rating__label rating__label--half" for="rating2-15"><i
-                                class="rating__icon rating__icon--star fa fa-star-half"></i></label>
-                        <input class="rating__input" name="rating2" id="rating2-15" value="1.5" type="radio"
-                               th:field="*{rating}">
-                        <label aria-label="2 stars" class="rating__label" for="rating2-20"><i
-                                class="rating__icon rating__icon--star fa fa-star"></i></label>
-                        <input class="rating__input" name="rating2" id="rating2-20" value="2" type="radio"
-                               th:field="*{rating}">
-                        <label aria-label="2.5 stars" class="rating__label rating__label--half" for="rating2-25"><i
-                                class="rating__icon rating__icon--star fa fa-star-half"></i></label>
-                        <input class="rating__input" name="rating2" id="rating2-25" value="2.5" type="radio" checked
-                               th:field="*{rating}">
-                        <label aria-label="3 stars" class="rating__label" for="rating2-30"><i
-                                class="rating__icon rating__icon--star fa fa-star"></i></label>
-                        <input class="rating__input" name="rating2" id="rating2-30" value="3" type="radio"
-                               th:field="*{rating}">
-                        <label aria-label="3.5 stars" class="rating__label rating__label--half" for="rating2-35"><i
-                                class="rating__icon rating__icon--star fa fa-star-half"></i></label>
-                        <input class="rating__input" name="rating2" id="rating2-35" value="3.5" type="radio"
-                               th:field="*{rating}">
-                        <label aria-label="4 stars" class="rating__label" for="rating2-40"><i
-                                class="rating__icon rating__icon--star fa fa-star"></i></label>
-                        <input class="rating__input" name="rating2" id="rating2-40" value="4" type="radio"
-                               th:field="*{rating}">
-                        <label aria-label="4.5 stars" class="rating__label rating__label--half" for="rating2-45"><i
-                                class="rating__icon rating__icon--star fa fa-star-half"></i></label>
-                        <input class="rating__input" name="rating2" id="rating2-45" value="4.5" type="radio"
-                               th:field="*{rating}">
-                        <label aria-label="5 stars" class="rating__label" for="rating2-50"><i
-                                class="rating__icon rating__icon--star fa fa-star"></i></label>
-                        <input class="rating__input" name="rating2" id="rating2-50" value="5" type="radio"
-                               th:field="*{rating}">
-                    </div>
+        <div>
+            <label for="half-stars">Rating: </label>
+            <div id="half-stars">
+                <div class="rating-group">
+                    <input class="rating__input rating__input--none" checked name="rating2" id="rating2-0" value="0"
+                           type="radio" th:field="*{rating}">
+                    <label aria-label="0 stars" class="rating__label zero-stars" for="rating2-0">&nbsp;</label>
+                    <label aria-label="0.5 stars" class="rating__label rating__label--half" for="rating2-05"><i
+                            class="rating__icon rating__icon--star fa fa-star-half"></i></label>
+                    <input class="rating__input" name="rating2" id="rating2-05" value="0.5" type="radio"
+                           th:field="*{rating}">
+                    <label aria-label="1 star" class="rating__label" for="rating2-10"><i
+                            class="rating__icon rating__icon--star fa fa-star"></i></label>
+                    <input class="rating__input" name="rating2" id="rating2-10" value="1" type="radio"
+                           th:field="*{rating}">
+                    <label aria-label="1.5 stars" class="rating__label rating__label--half" for="rating2-15"><i
+                            class="rating__icon rating__icon--star fa fa-star-half"></i></label>
+                    <input class="rating__input" name="rating2" id="rating2-15" value="1.5" type="radio"
+                           th:field="*{rating}">
+                    <label aria-label="2 stars" class="rating__label" for="rating2-20"><i
+                            class="rating__icon rating__icon--star fa fa-star"></i></label>
+                    <input class="rating__input" name="rating2" id="rating2-20" value="2" type="radio"
+                           th:field="*{rating}">
+                    <label aria-label="2.5 stars" class="rating__label rating__label--half" for="rating2-25"><i
+                            class="rating__icon rating__icon--star fa fa-star-half"></i></label>
+                    <input class="rating__input" name="rating2" id="rating2-25" value="2.5" type="radio" checked
+                           th:field="*{rating}">
+                    <label aria-label="3 stars" class="rating__label" for="rating2-30"><i
+                            class="rating__icon rating__icon--star fa fa-star"></i></label>
+                    <input class="rating__input" name="rating2" id="rating2-30" value="3" type="radio"
+                           th:field="*{rating}">
+                    <label aria-label="3.5 stars" class="rating__label rating__label--half" for="rating2-35"><i
+                            class="rating__icon rating__icon--star fa fa-star-half"></i></label>
+                    <input class="rating__input" name="rating2" id="rating2-35" value="3.5" type="radio"
+                           th:field="*{rating}">
+                    <label aria-label="4 stars" class="rating__label" for="rating2-40"><i
+                            class="rating__icon rating__icon--star fa fa-star"></i></label>
+                    <input class="rating__input" name="rating2" id="rating2-40" value="4" type="radio"
+                           th:field="*{rating}">
+                    <label aria-label="4.5 stars" class="rating__label rating__label--half" for="rating2-45"><i
+                            class="rating__icon rating__icon--star fa fa-star-half"></i></label>
+                    <input class="rating__input" name="rating2" id="rating2-45" value="4.5" type="radio"
+                           th:field="*{rating}">
+                    <label aria-label="5 stars" class="rating__label" for="rating2-50"><i
+                            class="rating__icon rating__icon--star fa fa-star"></i></label>
+                    <input class="rating__input" name="rating2" id="rating2-50" value="5" type="radio"
+                           th:field="*{rating}">
                 </div>
-
-            </div>
-            <div>
-                <label for="file-input">Images: </label>
-                <input id="file-input" type="file" name="image" accept="image/png, image/jpeg" class="inputFields" multiple/>
             </div>
 
-            <div>
-                <div id="preview" class = "thumbnail-container"></div>
-                <div id='file-list-display'></div>
-            </div>
+        </div>
+        <div>
+            <label for="file-input">Images: </label>
+            <input id="file-input" type="file" name="image" accept="image/png, image/jpeg" class="inputFields"
+                   multiple/>
+        </div>
 
-            <div id="submit">
-                <input type="submit" id="submit-btn" name="submit" alt="Submit" value="Submit">
-            </div>
+        <div>
+            <div id="preview" class="thumbnail-container"></div>
+            <div id='file-list-display'></div>
+        </div>
+
+        <div id="submit">
+            <input type="submit" id="submit-btn" name="submit" alt="Submit" value="Submit">
+        </div>
     </form>
 </div>
 

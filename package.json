@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "scss": "sass src/main/scss target/classes/static/css"
+    "scss": "sass src/main/scss:target/classes/static/css"
   },
   "repository": {
     "type": "git",
@@ -20,7 +20,6 @@
     "bootstrap": "^5.2",
     "copyfiles": "^2.4.1",
     "jquery": "^3.6.0",
-    "sass": "^1.54.7",
-    "popper.js": "^1.16.1"
+    "sass": "^1.54.7"
   }
 }

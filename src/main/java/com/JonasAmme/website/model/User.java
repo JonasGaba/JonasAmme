@@ -19,13 +19,14 @@ import java.time.LocalDateTime;
 @Table(name = "[user]")
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name="username", nullable = false, unique = true, length = 40)
+    @Column(name = "username", nullable = false, unique = true)
     private String username;
 
-    @Column(name="password", nullable = false, unique = true, length = 200)
+    @Column(name = "password", nullable = false)
     private String password;
     @Column(name = "date_modified")
     private LocalDateTime dateModified;
@@ -34,6 +35,14 @@ public class User {
     private LocalDateTime dateCreated = DataHelper.getCurrentTimeStamp();
     @Enumerated(EnumType.STRING)
     private Role role;
+
+    public boolean isUser() {
+        return role.equals(Role.USER);
+    }
+
+    public boolean isAdmin() {
+        return role.equals(Role.ADMIN);
+    }
 
     public User(String username, String password, Role role) {
         this.username = username;

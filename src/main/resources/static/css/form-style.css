@@ -4,17 +4,6 @@
 }
 html { overflow-y: scroll; }
 
-body {
-  margin: 0;
-  padding: 0;
-  background-repeat: no-repeat;
-  min-height: 100%;
-  display: flex;
-  align-content: flex-end;
-  align-items: flex-start;
-  justify-content: space-around;
-}
-
 .signupSection {
   background-repeat: no-repeat;
   width: 70%;

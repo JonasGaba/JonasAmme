@@ -45,7 +45,7 @@ public class UploadedFileServiceImpl implements UploadedFileService {
             return null;
         }
 
-        return uploadedFileRepository.findById(id).isPresent() ? uploadedFileRepository.findById(id).get():null;
+        return uploadedFileRepository.findById(id).isPresent() ? uploadedFileRepository.findById(id).get() : null;
 
     }
 
